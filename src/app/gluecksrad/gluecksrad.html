@@ -1,0 +1,15 @@
+<div class="rad-wrapper">
+  <div
+    class="rad-scheibe"
+    [ngStyle]="{
+      'background-image': gradient(),
+      'transform': 'rotate(' + rotation() + 'deg)'
+    }"
+  ></div>
+
+  <div class="zeiger"></div>
+
+  <button class="starter" type="button" (click)="onDrehen()">
+    Drehen
+  </button>
+</div>
