@@ -1,11 +1,11 @@
 <div class="rad-wrapper">
-  <div
-    class="rad-scheibe"
-    [ngStyle]="{
-      'background-image': gradient(),
-      'transform': 'rotate(' + rotation() + 'deg)'
-    }"
-  ></div>
+  <div class="rad-scheibe"
+       [class.winner-flash]="highlightWinner()"
+       [ngStyle]="{
+       'background-image': gradient(),
+       'transform': 'rotate(' + rotation() + 'deg)'
+     }">
+  </div>
 
   <div class="zeiger"></div>
 

@@ -1,9 +1,9 @@
 <div class="layout">
-  <div class="left">
+  <div class="layout__wheel">
     <app-gluecksrad [anzahlSegmente]="selectedZahl()"></app-gluecksrad>
   </div>
 
-  <div class="right">
+  <div class="layout__controls">
     <app-auswahl (zahlSelected)="onZahlSelected($event)"></app-auswahl>
   </div>
 </div>

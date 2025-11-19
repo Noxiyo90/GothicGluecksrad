@@ -20,7 +20,7 @@ export class FarbenBerechnungService {
         i === gewinnerSegment;
 
       const farbe = istGewinner
-        ? 'hsl(50 90% 55%)'
+        ? 'hsl(var(--winner-h) var(--winner-s) var(--winner-l))'
         : grautoene[i % grautoene.length];
 
       const start = currentWinkel;

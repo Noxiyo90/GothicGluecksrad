@@ -12,3 +12,11 @@ h1 {
 button {
   --pico-font-weight: 700;
 }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* immer 2 Spalten */
+  gap: 1.5rem;                      /* Abstand zwischen Feldern */
+  width: 100%;
+}
+
