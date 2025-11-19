@@ -6,14 +6,22 @@ import { Injectable } from '@angular/core';
 export class FarbenBerechnungService {
 
 
-  buildSegmenteCssString(anzahlSegmente: number): string {
+  buildSegmenteCssString(anzahlSegmente: number, gewinnerSegment: number | null, highlightWinner: boolean): string {
     const grautoene = this.berechneGrautoene(anzahlSegmente);
     let segmentListe: string[] = []
 
     let currentWinkel = 0;
     const winkelEinesSegments = 360/anzahlSegmente
     for (let i = 0; i < anzahlSegmente; i++) {
-      const farbe = grautoene[i % grautoene.length];
+
+      const istGewinner =
+        highlightWinner &&
+        gewinnerSegment !== null &&
+        i === gewinnerSegment;
+
+      const farbe = istGewinner
+        ? 'hsl(50 90% 55%)'
+        : grautoene[i % grautoene.length];
 
       const start = currentWinkel;
       const end = currentWinkel + winkelEinesSegments;
@@ -22,7 +30,6 @@ export class FarbenBerechnungService {
       currentWinkel = end;
     }
 
-    console.log(segmentListe)
     return `conic-gradient(${segmentListe.join(', ')})`
   }
 

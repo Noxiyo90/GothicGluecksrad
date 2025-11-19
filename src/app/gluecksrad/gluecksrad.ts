@@ -32,7 +32,10 @@ export class Gluecksrad {
   }
 
   gradient = computed(() =>  {
-    return this.farbenBerechnungService.buildSegmenteCssString(this.anzahlSegmente());
+    return this.farbenBerechnungService.buildSegmenteCssString(
+      this.anzahlSegmente(),
+      this.gewinnerSegment(),
+      this.highlightWinner());
   })
 
   berechneNeueRotation(): void {
@@ -48,10 +51,21 @@ export class Gluecksrad {
   }
 
   private berechneGewinnerSegment() {
-    let gradModulo = this.rotation() % 360
     const winkelEinesSegments = 360/this.anzahlSegmente()
-    const gewinnerSegment = Math.ceil(gradModulo / winkelEinesSegments)
-    this.gewinnerSegment.set(Math.ceil(gradModulo / winkelEinesSegments))
-    console.log(gewinnerSegment)
+    let gradModulo = ((this.rotation()-90) % 360);
+    const relativ = 360 - gradModulo;
+    const gewinnerSegment = Math.floor(relativ  / winkelEinesSegments);
+    this.gewinnerSegment.set(gewinnerSegment);
+    console.log('gewinnerSegment:', gewinnerSegment, 'gradModulo:', gradModulo, 'relativ:', relativ);
   }
 }
+
+/**
+ * 5 Segmente
+ * winkel eines Segments = 72
+ * relativ = 288
+ * gewinner Segment = 4
+ *
+ *
+ *
+ */
