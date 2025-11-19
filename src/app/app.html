@@ -1,0 +1,9 @@
+<div class="layout">
+  <div class="left">
+    <app-gluecksrad [anzahlSegmente]="selectedZahl()"></app-gluecksrad>
+  </div>
+
+  <div class="right">
+    <app-auswahl (zahlSelected)="onZahlSelected($event)"></app-auswahl>
+  </div>
+</div>

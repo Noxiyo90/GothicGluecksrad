@@ -1,0 +1,17 @@
+.layout {
+  display: flex;
+  gap: 2rem;          /* Abstand zwischen links und rechts */
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+
+/* Linke Seite (Glücksrad) soll so breit bleiben wie das Rad */
+.left {
+  flex: 0 0 auto;
+}
+
+/* Rechte Seite (Eingabefelder) nimmt den Rest */
+.right {
+  flex: 1;
+}
