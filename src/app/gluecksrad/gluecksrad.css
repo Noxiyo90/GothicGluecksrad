@@ -90,3 +90,25 @@
     --winner-l: 55%;
   }
 }
+
+.rad-idle-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Idle: das Rad dreht sich ganz langsam */
+.rad-idle-container.idle {
+  animation: idle-spin 60s linear infinite;
+}
+
+/* Eine volle Umdrehung in 20 Sekunden → sehr langsam */
+@keyframes idle-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+

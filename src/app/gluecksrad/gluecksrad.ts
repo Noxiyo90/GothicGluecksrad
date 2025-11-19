@@ -14,8 +14,9 @@ export class Gluecksrad {
   // auch im gluecksrad.css bei "transition: transform 4s" anpassen
   readonly drehzeitMs: number = 4000;
 
-  anzahlSegmente = input<number>(1)
+  anzahlSegmente = input<number>(0)
   rotation = signal(0);
+  idleDrehen = signal(true);
 
   gewinnerSegment = signal<number | null>(null);
   highlightWinner = signal(false);
@@ -23,6 +24,7 @@ export class Gluecksrad {
   constructor(private farbenBerechnungService: FarbenBerechnungService) {}
 
   onDrehen() {
+    this.idleDrehen.set(false);
     this.highlightWinner.set(false)
     this.berechneNeueRotation()
     setTimeout(() => {
@@ -92,7 +94,6 @@ export class Gluecksrad {
    * Segment 5 liegt also nach der Drehung genau am Zeiger.
    */
   private berechneGewinnerSegment() {
-    console.log(this.rotation())
     const winkelEinesSegments = 360/this.anzahlSegmente()
     let gradModulo = (this.rotation()-90) % 360;
     const relativ = 360 - gradModulo;

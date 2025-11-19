@@ -16,4 +16,8 @@ export class App {
   onZahlSelected(value: number) {
     this.selectedZahl.set(value);
   }
+
+  ngOnInit() {
+    this.selectedZahl.set(5);
+  }
 }
