@@ -1,8 +1,7 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component, signal} from '@angular/core';
 import {Gluecksrad} from './gluecksrad/gluecksrad';
 import {Auswahl} from './auswahl/auswahl';
-import {FarbenBerechnungService} from './farben-berechnung-service';
+import {DefaultValues} from './daten';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +10,9 @@ import {FarbenBerechnungService} from './farben-berechnung-service';
   styleUrl: './app.css'
 })
 export class App {
-  selectedZahl = signal(1);
+  selectedZahl = signal(DefaultValues.length);
 
   onZahlSelected(value: number) {
-    this.selectedZahl.set(value);
-  }
-
-  ngOnInit() {
-    this.selectedZahl.set(5);
+    // this.selectedZahl.set(value);
   }
 }
