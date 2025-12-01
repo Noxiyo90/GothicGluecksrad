@@ -1,4 +1,4 @@
-import {Component, computed, Input, signal} from '@angular/core';
+import {Component, computed, input, signal} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {FarbenBerechnungService} from '../farben-berechnung-service';
 
@@ -14,13 +14,22 @@ export class Gluecksrad {
   // auch im gluecksrad.css bei "transition: transform 4s" anpassen
   readonly drehzeitMs: number = 4000;
 
-  @Input() anzahlSegmente: number = 5;
+  werte = input<string[]>([]);
+
+  anzahlSegmente = computed(() => this.werte().length);
+
 
   derzeitigerRotationsWinkel = signal(0);
   idleDrehen = signal(true);
 
   gewinnerSegment = signal<number | null>(null);
   highlightWinner = signal(false);
+
+  ngOnChanges(): void {
+    console.log(this.werte());
+    console.log(this.anzahlSegmente());
+
+  }
 
   constructor(private farbenBerechnungService: FarbenBerechnungService) {
   }
@@ -37,7 +46,7 @@ export class Gluecksrad {
 
   gradient = computed(() => {
     return this.farbenBerechnungService.buildSegmenteCssString(
-      this.anzahlSegmente,
+      this.anzahlSegmente(),
       this.gewinnerSegment(),
       this.highlightWinner());
   })
@@ -96,11 +105,36 @@ export class Gluecksrad {
    * Segment 5 liegt also nach der Drehung genau am Zeiger.
    */
   private berechneGewinnerSegment() {
-    console.log(this.anzahlSegmente);
-    const winkelEinesSegments = 360 / this.anzahlSegmente!
+    const winkelEinesSegments = 360 / this.anzahlSegmente();
     let gradModulo = (this.derzeitigerRotationsWinkel() - 90) % 360;
     const relativ = 360 - gradModulo;
     const gewinnerSegment = Math.floor(relativ / winkelEinesSegments);
     this.gewinnerSegment.set(gewinnerSegment);
+  }
+
+  private winkelFuerIndex(index: number): number {
+    const segmente = this.anzahlSegmente();
+    if (!segmente) {
+      return 0;
+    }
+
+    const winkelProSegment = 360 / segmente;
+    return index * winkelProSegment + winkelProSegment / 2;
+  }
+
+  labelContainerStyle(index: number) {
+    const mid = this.winkelFuerIndex(index);
+
+    return {
+      transform: `rotate(${mid}deg)`
+    };
+  }
+
+  labelTextStyle(index: number) {
+    const mid = this.winkelFuerIndex(index);
+
+    return {
+      transform: `translate(0, -42%) rotate(${-mid}deg)`
+    };
   }
 }

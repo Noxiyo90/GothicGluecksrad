@@ -1,7 +1,7 @@
-import {Component, signal} from '@angular/core';
+import {Component, computed, signal} from '@angular/core';
 import {Gluecksrad} from './gluecksrad/gluecksrad';
 import {Auswahl} from './auswahl/auswahl';
-import {DefaultValues} from './daten';
+import {SEGMENT_GRUPPEN, SegmentGruppe} from './daten';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,23 @@ import {DefaultValues} from './daten';
   styleUrl: './app.css'
 })
 export class App {
-  selectedZahl = signal(DefaultValues.length);
+  alleGruppen = SEGMENT_GRUPPEN;
 
-  onZahlSelected(value: number) {
-    // this.selectedZahl.set(value);
+  aktuelleId = signal<string>('default');
+
+  aktuelleGruppe = computed(() =>
+    this.alleGruppen.find(g => g.id === this.aktuelleId()) ?? this.alleGruppen[0]
+  );
+
+  next() {
+    const currentIndex = this.alleGruppen.findIndex(g => g.id === this.aktuelleId());
+    const nextIndex = (currentIndex + 1) % this.alleGruppen.length;
+    this.aktuelleId.set(this.alleGruppen[nextIndex].id);
+  }
+
+  prev() {
+    const currentIndex = this.alleGruppen.findIndex(g => g.id === this.aktuelleId());
+    const prevIndex = (currentIndex - 1 + this.alleGruppen.length) % this.alleGruppen.length;
+    this.aktuelleId.set(this.alleGruppen[prevIndex].id);
   }
 }

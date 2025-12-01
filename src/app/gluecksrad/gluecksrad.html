@@ -5,8 +5,25 @@
          [ngStyle]="{
        'background-image': gradient(),
        'transform': 'rotate(' + derzeitigerRotationsWinkel() + 'deg)'
-     }">
+     }"></div>
+
+    <div class="rad-labels">
+      @for (wert of werte(); track $index) {
+        <div
+          class="rad-label"
+          [ngStyle]="labelContainerStyle($index)"
+        >
+          <div
+            class="rad-label__inner"
+            [ngStyle]="labelTextStyle($index)"
+          >
+            {{ wert }}
+          </div>
+        </div>
+      }
     </div>
+
+
   </div>
   <div class="zeiger"></div>
 

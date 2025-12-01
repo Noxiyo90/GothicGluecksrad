@@ -1,9 +1,16 @@
 <div class="layout">
   <div class="layout__wheel">
-    <app-gluecksrad [anzahlSegmente]="selectedZahl()"></app-gluecksrad>
+    <app-gluecksrad
+      [werte]="aktuelleGruppe().werte"
+    ></app-gluecksrad>
+
+    <div class="wheel-buttons">
+      <button (click)="prev()">Zurück</button>
+      <button (click)="next()">Weiter</button>
+    </div>
   </div>
 
   <div class="layout__controls">
-    <app-auswahl (zahlSelected)="onZahlSelected($event)"></app-auswahl>
+    <app-auswahl></app-auswahl>
   </div>
 </div>

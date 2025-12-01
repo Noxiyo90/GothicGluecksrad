@@ -10,11 +10,8 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './auswahl.css',
 })
 export class Auswahl {
-  zahl = signal(1)
-  zahlSelected = output<number>();
 
 
   onSubmit() {
-    this.zahlSelected.emit(this.zahl());
   }
 }
