@@ -1,33 +1,33 @@
 <div class="rad-wrapper">
   <div class="rad-idle-container" [class.idle]="idleDrehen()">
+
     <div class="rad-scheibe"
          [class.winner-flash]="highlightWinner()"
          [ngStyle]="{
-       'background-image': gradient(),
-       'transform': 'rotate(' + derzeitigerRotationsWinkel() + 'deg)'
-     }"></div>
+           'background-image': gradient(),
+           'transform': 'rotate(' + derzeitigerRotationsWinkel() + 'deg)'
+         }">
 
-    <div class="rad-labels">
-      @for (wert of werte(); track $index) {
-        <div
-          class="rad-label"
-          [ngStyle]="labelContainerStyle($index)"
-        >
+      <div class="rad-labels">
+        @for (wert of werte(); track $index) {
           <div
-            class="rad-label__inner"
-            [ngStyle]="labelTextStyle($index)"
+            class="rad-label"
+            [ngStyle]="labelContainerStyle($index)"
           >
-            {{ wert }}
+            <div
+              class="rad-label__inner"
+              [ngStyle]="labelTextStyle($index)"
+            >
+              {{ wert }}
+            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
     </div>
 
-
   </div>
-  <div class="zeiger"></div>
-
   <button class="starter" type="button" (click)="onDrehen()">
     Drehen
   </button>
+  <div class="zeiger"></div>
 </div>

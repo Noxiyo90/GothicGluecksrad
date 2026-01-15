@@ -63,6 +63,42 @@ export class Gluecksrad {
     this.derzeitigerRotationsWinkel.update((old) => old + delta);
   }
 
+  labelContainerStyle(index: number) {
+    const rawAngle = this.winkelFuerIndex(index); // oder (index - 1 + segmente) % segmente
+    const angleInDegrees = rawAngle - 90;
+    const angleInRadians = angleInDegrees * Math.PI / 180;
+
+    const outerRadius = 45;
+    const innerRadius = 20;
+    const radius = (outerRadius + innerRadius) / 2;
+
+    const x = 50 + radius * Math.cos(angleInRadians);
+    const y = 50 + radius * Math.sin(angleInRadians);
+
+    return {
+      position: 'absolute',
+      top: `${y}%`,
+      left: `${x}%`,
+      transform: `translate(-50%, -50%) rotate(${angleInDegrees}deg)`,
+      transformOrigin: 'center center',
+      pointerEvents: 'none',
+      textAlign: 'center',
+    };
+  }
+
+
+  labelTextStyle(index: number) {
+    return {
+      color: 'white',
+      fontSize: '0.9vw',
+      maxWidth: '100px',
+      textAlign: 'center',
+      whiteSpace: 'normal',
+      wordBreak: 'break-word',
+      lineHeight: '1.3',
+    };
+  }
+
   /**
    * Komplizierte Rechnung, aber hier einmal verständlich erklärt:
    *
@@ -110,6 +146,7 @@ export class Gluecksrad {
     const relativ = 360 - gradModulo;
     const gewinnerSegment = Math.floor(relativ / winkelEinesSegments);
     this.gewinnerSegment.set(gewinnerSegment);
+    console.log(this.werte()[gewinnerSegment]);
   }
 
   private winkelFuerIndex(index: number): number {
@@ -117,24 +154,7 @@ export class Gluecksrad {
     if (!segmente) {
       return 0;
     }
-
-    const winkelProSegment = 360 / segmente;
-    return index * winkelProSegment + winkelProSegment / 2;
-  }
-
-  labelContainerStyle(index: number) {
-    const mid = this.winkelFuerIndex(index);
-
-    return {
-      transform: `rotate(${mid}deg)`
-    };
-  }
-
-  labelTextStyle(index: number) {
-    const mid = this.winkelFuerIndex(index);
-
-    return {
-      transform: `translate(0, -42%) rotate(${-mid}deg)`
-    };
+    const winkelEinesSegments = 360 / segmente;
+    return index * winkelEinesSegments + winkelEinesSegments / 2;
   }
 }
