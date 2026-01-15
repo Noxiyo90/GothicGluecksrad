@@ -2,15 +2,22 @@
   <div class="layout__wheel">
     <app-gluecksrad
       [werte]="aktuelleGruppe().werte"
+      [started]="started()"
     ></app-gluecksrad>
 
-    <div class="wheel-buttons">
-      <button (click)="prev()">Zurück</button>
-      <button (click)="next()">Weiter</button>
-    </div>
+    @if (aktuelleId() === 'default') {
+        <button class="wheel-button-start" (click)="start()">Start</button>
+    } @else {
+      <div class="wheel-buttons">
+        <button (click)="prev()">Zurück</button>
+        <button (click)="next()">Weiter</button>
+      </div>
+    }
   </div>
 
   <div class="layout__controls">
-    <app-auswahl></app-auswahl>
+    <app-auswahl>
+
+    </app-auswahl>
   </div>
 </div>

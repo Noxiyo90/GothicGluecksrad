@@ -14,6 +14,8 @@ export class App {
 
   aktuelleId = signal<string>('default');
 
+  started = signal<boolean>(false);
+
   aktuelleGruppe = computed(() =>
     this.alleGruppen.find(g => g.id === this.aktuelleId()) ?? this.alleGruppen[0]
   );
@@ -28,5 +30,10 @@ export class App {
     const currentIndex = this.alleGruppen.findIndex(g => g.id === this.aktuelleId());
     const prevIndex = (currentIndex - 1 + this.alleGruppen.length) % this.alleGruppen.length;
     this.aktuelleId.set(this.alleGruppen[prevIndex].id);
+  }
+
+  start() {
+    this.aktuelleId.set('herkunft');
+    this.started.set(true);
   }
 }

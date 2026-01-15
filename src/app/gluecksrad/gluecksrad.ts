@@ -1,4 +1,4 @@
-import {Component, computed, input, signal} from '@angular/core';
+import {Component, computed, input, output, signal} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {FarbenBerechnungService} from '../farben-berechnung-service';
 
@@ -15,6 +15,7 @@ export class Gluecksrad {
   readonly drehzeitMs: number = 4000;
 
   werte = input<string[]>([]);
+  started = input<boolean>(false);
 
   anzahlSegmente = computed(() => this.werte().length);
 
@@ -34,14 +35,16 @@ export class Gluecksrad {
   constructor(private farbenBerechnungService: FarbenBerechnungService) {
   }
 
-  onDrehen() {
-    this.idleDrehen.set(false);
-    this.highlightWinner.set(false)
-    this.berechneNeueRotation()
-    setTimeout(() => {
-      this.berechneGewinnerSegment();
-      this.highlightWinner.set(true);
-    }, this.drehzeitMs + 50);
+  onDrehen(){
+    if (this.started()) {
+      this.idleDrehen.set(false);
+      this.highlightWinner.set(false)
+      this.berechneNeueRotation()
+      setTimeout(() => {
+        this.berechneGewinnerSegment();
+        this.highlightWinner.set(true);
+      }, this.drehzeitMs + 50);
+    }
   }
 
   gradient = computed(() => {
@@ -140,13 +143,13 @@ export class Gluecksrad {
    *
    * Segment 5 liegt also nach der Drehung genau am Zeiger.
    */
-  private berechneGewinnerSegment() {
+  private berechneGewinnerSegment(): number {
     const winkelEinesSegments = 360 / this.anzahlSegmente();
     let gradModulo = (this.derzeitigerRotationsWinkel() - 90) % 360;
     const relativ = 360 - gradModulo;
     const gewinnerSegment = Math.floor(relativ / winkelEinesSegments);
     this.gewinnerSegment.set(gewinnerSegment);
-    console.log(this.werte()[gewinnerSegment]);
+    return gewinnerSegment;
   }
 
   private winkelFuerIndex(index: number): number {
