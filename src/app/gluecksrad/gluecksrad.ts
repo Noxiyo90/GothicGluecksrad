@@ -68,8 +68,8 @@ export class Gluecksrad {
     const angleInDegrees = rawAngle - 90;
     const angleInRadians = angleInDegrees * Math.PI / 180;
 
-    const outerRadius = 45;
-    const innerRadius = 20;
+    const outerRadius = 50;
+    const innerRadius = 10;
     const radius = (outerRadius + innerRadius) / 2;
 
     const x = 50 + radius * Math.cos(angleInRadians);
@@ -91,7 +91,7 @@ export class Gluecksrad {
     return {
       color: 'white',
       fontSize: '0.9vw',
-      maxWidth: '100px',
+      maxWidth: '11vw',
       textAlign: 'center',
       whiteSpace: 'normal',
       wordBreak: 'break-word',
