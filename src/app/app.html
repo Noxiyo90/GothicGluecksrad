@@ -3,6 +3,7 @@
     <app-gluecksrad
       [werte]="aktuelleGruppe().werte"
       [started]="started()"
+      (gewinnerSegmentOutput)="gewinnerSegmentOutput($event)"
     ></app-gluecksrad>
 
     @if (aktuelleId() === 'default') {
@@ -16,8 +17,7 @@
   </div>
 
   <div class="layout__controls">
-    <app-auswahl>
-
-    </app-auswahl>
+    <app-auswahl
+    ></app-auswahl>
   </div>
 </div>

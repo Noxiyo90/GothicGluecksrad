@@ -1,7 +1,8 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, signal, ViewChild} from '@angular/core';
 import {Gluecksrad} from './gluecksrad/gluecksrad';
 import {Auswahl} from './auswahl/auswahl';
-import {SEGMENT_GRUPPEN, SegmentGruppe} from './daten';
+import {CharacterData, SEGMENT_GRUPPEN} from './daten';
+import {timeout} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,16 @@ export class App {
     this.alleGruppen.find(g => g.id === this.aktuelleId()) ?? this.alleGruppen[0]
   );
 
+  @ViewChild(Auswahl) auswahlComponent!: Auswahl;
+
+  updateCharacterData(field: keyof CharacterData, value: string) {
+    this.auswahlComponent.setField(field, value);
+    setTimeout(() => {
+      this.next()
+    }, 1000)
+
+  }
+
   next() {
     const currentIndex = this.alleGruppen.findIndex(g => g.id === this.aktuelleId());
     const nextIndex = (currentIndex + 1) % this.alleGruppen.length;
@@ -36,4 +47,12 @@ export class App {
     this.aktuelleId.set('herkunft');
     this.started.set(true);
   }
+
+  gewinnerSegmentOutput($event: number) {
+    const feld = this.aktuelleGruppe().id as keyof CharacterData;
+    const wert = this.aktuelleGruppe().werte[$event];
+
+    this.updateCharacterData(feld, wert);
+  }
+
 }

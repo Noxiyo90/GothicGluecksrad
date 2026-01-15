@@ -24,13 +24,8 @@ export class Gluecksrad {
   idleDrehen = signal(true);
 
   gewinnerSegment = signal<number | null>(null);
+  gewinnerSegmentOutput = output<number>();
   highlightWinner = signal(false);
-
-  ngOnChanges(): void {
-    console.log(this.werte());
-    console.log(this.anzahlSegmente());
-
-  }
 
   constructor(private farbenBerechnungService: FarbenBerechnungService) {
   }
@@ -90,7 +85,7 @@ export class Gluecksrad {
   }
 
 
-  labelTextStyle(index: number) {
+  labelTextStyle() {
     return {
       color: 'white',
       fontSize: '0.9vw',
@@ -143,13 +138,13 @@ export class Gluecksrad {
    *
    * Segment 5 liegt also nach der Drehung genau am Zeiger.
    */
-  private berechneGewinnerSegment(): number {
+  private berechneGewinnerSegment() {
     const winkelEinesSegments = 360 / this.anzahlSegmente();
     let gradModulo = (this.derzeitigerRotationsWinkel() - 90) % 360;
     const relativ = 360 - gradModulo;
     const gewinnerSegment = Math.floor(relativ / winkelEinesSegments);
     this.gewinnerSegment.set(gewinnerSegment);
-    return gewinnerSegment;
+    this.gewinnerSegmentOutput.emit(gewinnerSegment);
   }
 
   private winkelFuerIndex(index: number): number {

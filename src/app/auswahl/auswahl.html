@@ -1,22 +1,26 @@
 <h1>Dein Gothic-Charakter</h1>
 <div class="form-grid">
-  <form (ngSubmit)="onSubmit()">
-    <div class="input-group">
-      <p>
-        <input placeholder="Name" id="name" type="text" name="zahl">
-      </p>
-    </div>
-  </form>
-  <input placeholder="Herkunft">
-  <input placeholder="Fraktion/Gilde">
-  <input placeholder="Stärke">
-  <input placeholder="Geschick">
-  <input placeholder="Magiebegabung">
-  <input placeholder="Magiekreis">
-  <input placeholder="Alter">
-  <input placeholder="Nahkampf?">
-  <input placeholder="Fernkampf?">
-  <input placeholder="Göttergabe">
-  <input placeholder="Gott">
-  <input placeholder="Mission/Ziel">
+  <input [value]="characterData().name || ''" id='name' placeholder="Name" readonly>
+  <input [value]="characterData().herkunft || ''" id='herkunft' placeholder="Herkunft" readonly>
+  <input [value]="characterData().fraktion || ''" id='fraktion' placeholder="Fraktion/Gilde" readonly>
+  <input [value]="characterData().staerke || ''" id='staerke' placeholder="Stärke" readonly>
+  <input [value]="characterData().geschick || ''" id='geschick' placeholder="Geschick" readonly>
+  <input [value]="characterData().magiebegabung || ''" id='magiebegabung' placeholder="Magiebegabung" readonly>
+  <input [value]="characterData().magiekreis || ''" id='magiekreis' placeholder="Magiekreis" readonly>
+  <input [value]="characterData().alter || ''" id='alter' placeholder="Alter" readonly>
+  <input [value]="characterData().nahkampf || ''" id='nahkampf' placeholder="Nahkampf?" readonly>
+  @if (sichtbarkeit().nahkampfwaffe) { <input [value]="characterData().nahkampfwaffe || ''" placeholder="Nahkampfwaffe" readonly/> }
+  @if (sichtbarkeit().nahkampffertigkeit) { <input [value]="characterData().nahkampffertigkeit || ''" placeholder="Nahkampffertigkeit" readonly/> }
+  <input [value]="characterData().fernkampf || ''" id='fernkampf' placeholder="Fernkampf?" readonly>
+  @if (sichtbarkeit().nahkampfwaffe) { <input [value]="characterData().nahkampfwaffe || ''" placeholder="Nahkampfwaffe" readonly/> }
+  @if (sichtbarkeit().nahkampffertigkeit) { <input [value]="characterData().nahkampffertigkeit || ''" placeholder="Nahkampffertigkeit" readonly/> }
+  <input [value]="characterData().goettergabe || ''" id='goettergabe' placeholder="Göttergabe" readonly>
+  @if (sichtbarkeit().gott) { <input [value]="characterData().gott || ''" placeholder="Gott" readonly/> }
+  @if (sichtbarkeit().adanossegen) { <input [value]="characterData().adanossegen || ''" placeholder="Segen Adanos'" readonly/> }
+  @if (sichtbarkeit().adanosfluch) { <input [value]="characterData().adanosfluch || ''" placeholder="Fluch Adanos'" readonly/> }
+  @if (sichtbarkeit().innossegen) { <input [value]="characterData().innossegen || ''" placeholder="Segen Innos'" readonly/> }
+  @if (sichtbarkeit().innosfluch) { <input [value]="characterData().innosfluch || ''" placeholder="Fluch Innos'" readonly/> }
+  @if (sichtbarkeit().beliarsegen) { <input [value]="characterData().beliarsegen || ''" placeholder="Segen Beliars'" readonly/> }
+  @if (sichtbarkeit().beliarfluch) { <input [value]="characterData().beliarfluch || ''" placeholder="Fluch Beliars'" readonly/> }
+  <input [value]="characterData().mission || ''" id='mission' placeholder="Mission/Ziel" readonly>
 </div>
