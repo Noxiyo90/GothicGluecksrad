@@ -1,4 +1,4 @@
-export type SegmentId = 'default' | 'gilde';
+export type SegmentId = 'default' | 'fraktionen' | 'herkunft';
 
 export interface SegmentGruppe {
   id: SegmentId;
@@ -12,15 +12,47 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
       'Einen wunderschönen guten Tag',
       "Kümmerliche Vorstellung",
       'https://www.youtube.com/@JorgensonYT',
-      // 'dummy',
+      'Der Entwickler dieser App hasst CSS',
       // 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
     ]
-  }, {
-    id: 'gilde',
+  },
+  {
+    id: 'herkunft',
     werte: [
-      "Eins",
-      "Zwei",
-      "Drei"
+      "Nordmar",
+      "Myrtana",
+      "Varant",
+      "Südliche Inseln",
+      "Khorinis Stadt und Umland",
+      "Khorinis Minental",
+      "Archolos",
+      "Irdorath",
+      "Jharkendar"
+    ]
+  },
+  {
+    id: 'fraktionen',
+    werte: [
+      "Feuermagier",
+      "Wassermagier",
+      "Schwarzmagier",
+      "Altes Lager",
+      "Neues Lager",
+      "Sumpf Lager",
+      "Ork",
+      "Orksöldner",
+      "Paladin/Miliz",
+      "Nordmar Wolfsclan",
+      "Nordmar Feuerclan",
+      "Nordmar Hammerclan",
+      "Söldner",
+      "Banditen",
+      "Piraten",
+      "Rebellen",
+      "Assassinen",
+      "Nomaden",
+      "Druiden",
+      "Waldläufer"
     ]
   }
 
