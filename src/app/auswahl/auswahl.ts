@@ -49,13 +49,12 @@ export class Auswahl {
     const sichtbarkeit = this.sichtbarkeit();
 
     const felder: (keyof CharacterData)[] = [
-      'name',
       'herkunft',
       'fraktion',
+      'alter',
       'staerke',
       'geschick',
       'magiebegabung',
-      'alter',
       'nahkampf',
       'fernkampf',
       'goettergabe',

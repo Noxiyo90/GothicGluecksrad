@@ -1,27 +1,148 @@
 <h1>Dein Gothic-Charakter</h1>
-<div class="form-grid field">
-  <input [value]="characterData().name || ''" id='name' placeholder="Name" readonly>
-  <input [value]="characterData().herkunft || ''" id='herkunft' placeholder="Herkunft" readonly>
-  <input [value]="characterData().fraktion || ''" id='fraktion' placeholder="Fraktion/Gilde" readonly>
-  <input [value]="characterData().staerke || ''" id='staerke' placeholder="Stärke" readonly>
-  <input [value]="characterData().geschick || ''" id='geschick' placeholder="Geschick" readonly>
-  <input [value]="characterData().magiebegabung || ''" id='magiebegabung' placeholder="Magiebegabung" readonly>
-  @if (sichtbarkeit().magiekreis) { <input [value]="characterData().magiekreis || ''" placeholder="Magiekreis" readonly/> }
-  @if (sichtbarkeit().lieblingszauber) { <input [value]="characterData().lieblingszauber || ''" placeholder="Lieblingszauber" readonly/> }
-  <input [value]="characterData().alter || ''" id='alter' placeholder="Alter" readonly>
-  <input [value]="characterData().nahkampf || ''" id='nahkampf' placeholder="Nahkampf?" readonly>
-  @if (sichtbarkeit().nahkampfwaffe) { <input [value]="characterData().nahkampfwaffe || ''" placeholder="Nahkampfwaffe" readonly/> }
-  @if (sichtbarkeit().nahkampffertigkeit) { <input [value]="characterData().nahkampffertigkeit || ''" placeholder="Nahkampffertigkeit" readonly/> }
-  <input [value]="characterData().fernkampf || ''" id='fernkampf' placeholder="Fernkampf?" readonly>
-  @if (sichtbarkeit().fernkampfwaffe) { <input [value]="characterData().fernkampfwaffe || ''" placeholder="Fernkampfwaffe" readonly/> }
-  @if (sichtbarkeit().nahkampffertigkeit) { <input [value]="characterData().fernkampffertigkeit || ''" placeholder="Fernkampffertigkeit" readonly/> }
-  <input [value]="characterData().goettergabe || ''" id='goettergabe' placeholder="Göttergabe" readonly>
-  @if (sichtbarkeit().gott) { <input [value]="characterData().gott || ''" placeholder="Gott" readonly/> }
-  @if (sichtbarkeit().adanossegen) { <input [value]="characterData().adanossegen || ''" placeholder="Segen Adanos'" readonly/> }
-  @if (sichtbarkeit().adanosfluch) { <input [value]="characterData().adanosfluch || ''" placeholder="Fluch Adanos'" readonly/> }
-  @if (sichtbarkeit().innossegen) { <input [value]="characterData().innossegen || ''" placeholder="Segen Innos'" readonly/> }
-  @if (sichtbarkeit().innosfluch) { <input [value]="characterData().innosfluch || ''" placeholder="Fluch Innos'" readonly/> }
-  @if (sichtbarkeit().beliarsegen) { <input [value]="characterData().beliarsegen || ''" placeholder="Segen Beliars'" readonly/> }
-  @if (sichtbarkeit().beliarfluch) { <input [value]="characterData().beliarfluch || ''" placeholder="Fluch Beliars'" readonly/> }
+
+
+<div class="grid-row">
+  <div class="field">
+    <div class="field-value">{{ characterData().herkunft || '—' }}</div>
+    <div class="field-label">Herkunft</div>
+  </div>
+  <div class="field">
+    <div class="field-value">{{ characterData().fraktion || '—' }}</div>
+    <div class="field-label">Fraktion / Gilde</div>
+  </div>
+
+  <div class="field">
+    <div class="field-value">{{ characterData().alter || '—' }}</div>
+    <div class="field-label">Alter</div>
+  </div>
 </div>
-  <input width="100%"  [value]="characterData().mission || ''" id='mission' placeholder="Mission/Ziel" readonly>
+<div class="grid-row">
+  <div class="field">
+    <div class="field-value">{{ characterData().staerke || '—' }}</div>
+    <div class="field-label">Stärke</div>
+  </div>
+
+  <div class="field">
+    <div class="field-value">{{ characterData().geschick || '—' }}</div>
+    <div class="field-label">Geschick</div>
+  </div>
+</div>
+<div class="grid-row">
+  <div class="field">
+    <div class="field-value">{{ characterData().magiebegabung || '—' }}</div>
+    <div class="field-label">Magiebegabung</div>
+  </div>
+
+  @if (sichtbarkeit().magiekreis) {
+    <div class="field">
+      <div class="field-value">{{ characterData().magiekreis || '—' }}</div>
+      <div class="field-label">Magiekreis</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().lieblingszauber) {
+    <div class="field">
+      <div class="field-value">{{ characterData().lieblingszauber || '—' }}</div>
+      <div class="field-label">Lieblingszauber</div>
+    </div>
+  }
+</div>
+<div class="grid-row">
+  <div class="field">
+    <div class="field-value">{{ characterData().nahkampf || '—' }}</div>
+    <div class="field-label">Nahkampf?</div>
+  </div>
+
+  @if (sichtbarkeit().nahkampfwaffe) {
+    <div class="field">
+      <div class="field-value">{{ characterData().nahkampfwaffe || '—' }}</div>
+      <div class="field-label">Nahkampfwaffe</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().nahkampffertigkeit) {
+    <div class="field">
+      <div class="field-value">{{ characterData().nahkampffertigkeit || '—' }}</div>
+      <div class="field-label">Nahkampffertigkeit</div>
+    </div>
+  }
+</div>
+<div class="grid-row">
+  <div class="field">
+    <div class="field-value">{{ characterData().fernkampf || '—' }}</div>
+    <div class="field-label">Fernkampf?</div>
+  </div>
+
+  @if (sichtbarkeit().fernkampfwaffe) {
+    <div class="field">
+      <div class="field-value">{{ characterData().fernkampfwaffe || '—' }}</div>
+      <div class="field-label">Fernkampfwaffe</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().fernkampffertigkeit) {
+    <div class="field">
+      <div class="field-value">{{ characterData().fernkampffertigkeit || '—' }}</div>
+      <div class="field-label">Fernkampffertigkeit</div>
+    </div>
+  }
+</div>
+<div class="grid-row">
+  <div class="field">
+    <div class="field-value">{{ characterData().goettergabe || '—' }}</div>
+    <div class="field-label">Göttergabe</div>
+  </div>
+
+  @if (sichtbarkeit().gott) {
+    <div class="field">
+      <div class="field-value">{{ characterData().gott || '—' }}</div>
+      <div class="field-label">Gott</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().adanossegen) {
+    <div class="field">
+      <div class="field-value">{{ characterData().adanossegen || '—' }}</div>
+      <div class="field-label">Segen Adanos'</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().adanosfluch) {
+    <div class="field">
+      <div class="field-value">{{ characterData().adanosfluch || '—' }}</div>
+      <div class="field-label">Fluch Adanos'</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().innossegen) {
+    <div class="field">
+      <div class="field-value">{{ characterData().innossegen || '—' }}</div>
+      <div class="field-label">Segen Innos'</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().innosfluch) {
+    <div class="field">
+      <div class="field-value">{{ characterData().innosfluch || '—' }}</div>
+      <div class="field-label">Fluch Innos'</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().beliarsegen) {
+    <div class="field">
+      <div class="field-value">{{ characterData().beliarsegen || '—' }}</div>
+      <div class="field-label">Segen Beliars'</div>
+    </div>
+  }
+
+  @if (sichtbarkeit().beliarfluch) {
+    <div class="field">
+      <div class="field-value">{{ characterData().beliarfluch || '—' }}</div>
+      <div class="field-label">Fluch Beliars'</div>
+    </div>
+  }
+</div>
+<div class="field field-wide">
+  <div class="field-value">{{ characterData().mission || '—' }}</div>
+  <div class="field-label">Mission / Ziel</div>
+</div>
