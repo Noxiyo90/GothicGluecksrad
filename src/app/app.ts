@@ -42,18 +42,6 @@ export class App {
     this.aktuelleId.set(nextId);
   }
 
-
-  prev() {
-    const sichtbare = this.auswahlComponent.aktiveFelder();
-    const currentId = this.aktuelleId();
-    const currentIndex = sichtbare.indexOf(currentId as keyof CharacterData);
-
-    const prevIndex = (currentIndex - 1 + sichtbare.length) % sichtbare.length;
-    const prevId = sichtbare[prevIndex];
-
-    this.aktuelleId.set(prevId);
-  }
-
   gewinnerSegmentOutput($event: number) {
     const feld = this.aktuelleGruppe().id as keyof CharacterData;
     const wert = this.aktuelleGruppe().werte[$event];

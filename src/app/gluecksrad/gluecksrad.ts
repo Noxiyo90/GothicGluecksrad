@@ -23,7 +23,7 @@ export class Gluecksrad {
 
   derzeitigerRotationsWinkel = signal(0);
   idleDrehen = signal(true);
-
+  blockeDrehen = false;
   gewinnerSegment = signal<number | null>(null);
   gewinnerSegmentOutput = output<number>();
   startGame = output<void>();
@@ -37,13 +37,16 @@ export class Gluecksrad {
     });
   }
 
-  onDrehen(){
-      this.highlightWinner.set(false)
-      this.berechneNeueRotation()
-      setTimeout(() => {
-        this.berechneGewinnerSegment();
-        this.highlightWinner.set(true);
-      }, this.drehzeitMs + 50);
+  onDrehen() {
+    if (this.blockeDrehen) return;
+    this.blockeDrehen = true;
+    this.highlightWinner.set(false)
+    this.berechneNeueRotation()
+    setTimeout(() => {
+      this.berechneGewinnerSegment();
+      this.highlightWinner.set(true);
+      this.blockeDrehen = false;
+    }, this.drehzeitMs + 50);
   }
 
   start() {

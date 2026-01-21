@@ -14,16 +14,27 @@ export class Auswahl {
   characterData = signal<CharacterData>({}); // initial leer
 
   setField<K extends keyof CharacterData>(field: K, value: CharacterData[K]) {
-    console.log(`Setze ${field} auf ${value}`)
     this.characterData.update(data => ({
       ...data,
       [field]: value
     }));
   }
 
+  felder: (keyof CharacterData)[] = [
+    'herkunft',
+    'fraktion',
+    'alter',
+    'staerke',
+    'geschick',
+    'magiebegabung',
+    'nahkampf',
+    'fernkampf',
+    'goettergabe',
+    'mission',
+  ];
+
   sichtbarkeit = computed(() => {
     const data = this.characterData();
-
     return {
       nahkampfwaffe: data.nahkampf === 'Ja',
       nahkampffertigkeit: data.nahkampf === 'Ja',
@@ -48,40 +59,28 @@ export class Auswahl {
 
     const sichtbarkeit = this.sichtbarkeit();
 
-    const felder: (keyof CharacterData)[] = [
-      'herkunft',
-      'fraktion',
-      'alter',
-      'staerke',
-      'geschick',
-      'magiebegabung',
-      'nahkampf',
-      'fernkampf',
-      'goettergabe',
-      'mission',
-    ];
+    if (sichtbarkeit.magiekreis) this.fuegeInArrayEin(this.felder,'magiekreis', 'magiebegabung');
+    if (sichtbarkeit.lieblingszauber) this.fuegeInArrayEin(this.felder,'lieblingszauber', 'magiekreis');
 
-    if (sichtbarkeit.magiekreis) this.fuegeInArrayEin(felder,'magiekreis', 'magiebegabung');
-    if (sichtbarkeit.lieblingszauber) this.fuegeInArrayEin(felder,'lieblingszauber', 'magiekreis');
+    if (sichtbarkeit.nahkampfwaffe) this.fuegeInArrayEin(this.felder,'nahkampfwaffe', 'nahkampf');
+    if (sichtbarkeit.nahkampffertigkeit) this.fuegeInArrayEin(this.felder,'nahkampffertigkeit', 'nahkampfwaffe');
+    if (sichtbarkeit.fernkampfwaffe) this.fuegeInArrayEin(this.felder,'fernkampfwaffe', 'fernkampf');
+    if (sichtbarkeit.fernkampffertigkeit) this.fuegeInArrayEin(this.felder,'fernkampffertigkeit', 'fernkampfwaffe');
 
-    if (sichtbarkeit.nahkampfwaffe) this.fuegeInArrayEin(felder,'nahkampfwaffe', 'nahkampf');
-    if (sichtbarkeit.nahkampffertigkeit) this.fuegeInArrayEin(felder,'nahkampffertigkeit', 'nahkampfwaffe');
-    if (sichtbarkeit.fernkampfwaffe) this.fuegeInArrayEin(felder,'fernkampfwaffe', 'fernkampf');
-    if (sichtbarkeit.fernkampffertigkeit) this.fuegeInArrayEin(felder,'fernkampffertigkeit', 'fernkampfwaffe');
+    if (sichtbarkeit.gott) this.fuegeInArrayEin(this.felder,'gott', 'goettergabe');
 
-    if (sichtbarkeit.gott) this.fuegeInArrayEin(felder,'gott', 'goettergabe');
+    if (sichtbarkeit.adanossegen) this.fuegeInArrayEin(this.felder,'adanossegen', 'gott');
+    if (sichtbarkeit.adanosfluch) this.fuegeInArrayEin(this.felder,'adanosfluch', 'gott');
+    if (sichtbarkeit.innossegen) this.fuegeInArrayEin(this.felder,'innossegen', 'gott');
+    if (sichtbarkeit.innosfluch) this.fuegeInArrayEin(this.felder,'innosfluch', 'gott');
+    if (sichtbarkeit.beliarsegen) this.fuegeInArrayEin(this.felder,'beliarsegen', 'gott');
+    if (sichtbarkeit.beliarfluch) this.fuegeInArrayEin(this.felder,'beliarfluch', 'gott');
 
-    if (sichtbarkeit.adanossegen) this.fuegeInArrayEin(felder,'adanossegen', 'gott');
-    if (sichtbarkeit.adanossegen) this.fuegeInArrayEin(felder,'adanosfluch', 'gott');
-    if (sichtbarkeit.adanossegen) this.fuegeInArrayEin(felder,'innossegen', 'gott');
-    if (sichtbarkeit.adanossegen) this.fuegeInArrayEin(felder,'innosfluch', 'gott');
-    if (sichtbarkeit.adanossegen) this.fuegeInArrayEin(felder,'beliarsegen', 'gott');
-    if (sichtbarkeit.adanossegen) this.fuegeInArrayEin(felder,'beliarfluch', 'gott');
-
-    return felder;
+    return this.felder;
   });
 
   private fuegeInArrayEin(array: string[], eingabe: string, vorherigerString: string) {
+    if (array.includes(eingabe)) return;
     const index = array.indexOf(vorherigerString);
     if (index !== -1) {
       array.splice(index + 1, 0, eingabe);
