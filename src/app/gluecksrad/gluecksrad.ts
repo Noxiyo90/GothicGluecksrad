@@ -37,8 +37,6 @@ export class Gluecksrad {
     });
   }
 
-
-
   onDrehen(){
       this.highlightWinner.set(false)
       this.berechneNeueRotation()

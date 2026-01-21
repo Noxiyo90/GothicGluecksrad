@@ -5,9 +5,10 @@ import { Injectable } from '@angular/core';
 })
 export class FarbenBerechnungService {
 
+  private readonly farbPalette: string[] = this.createFarbPalette();
 
   buildSegmenteCssString(anzahlSegmente: number, gewinnerSegment: number | null, highlightWinner: boolean): string {
-    const grautoene = this.berechneGrautoene(anzahlSegmente);
+    const farben = this.farbPalette.slice(0, anzahlSegmente);
     let segmentListe: string[] = []
 
     let currentWinkel = 0;
@@ -21,7 +22,7 @@ export class FarbenBerechnungService {
 
       const farbe = istGewinner
         ? 'hsl(var(--winner-h) var(--winner-s) var(--winner-l))'
-        : grautoene[i % grautoene.length];
+        : farben[i % farben.length];
 
       const start = currentWinkel;
       const end = currentWinkel + winkelEinesSegments;
@@ -33,20 +34,50 @@ export class FarbenBerechnungService {
     return `conic-gradient(${segmentListe.join(', ')})`
   }
 
-  private berechneGrautoene(segmente: number): string[] {
-    const grautoeneArray: string[] = [];
-    const dunkelsterGrauton = 20;
-    const hellsterGrauton = 80;
+  private createFarbPalette(): string[] {
+    const BASEFARBEN = [
+      'hsl(215 25% 28%)',
+      'hsl(215 25% 34%)',
+      'hsl(215 25% 40%)',
+      'hsl(215 25% 46%)',
+      'hsl(215 25% 52%)',
+      'hsl(215 25% 58%)',
+      'hsl(215 25% 64%)',
+    ];
+    const PALETTENGROESSE = 100;
+    const result: string[] = [];
 
-    const graustufenAnzahl =
-      segmente <= 3 ? segmente : Math.ceil(segmente / 2);
+    for (let i = 0; i < PALETTENGROESSE; i++) {
+      const randomIndex = Math.floor(Math.random() * BASEFARBEN.length);
+      result.push(BASEFARBEN[randomIndex]);
+    }
+    return this.fixAdjacentDuplicates(result, BASEFARBEN);
+  }
 
-    for (let j = 0; j < graustufenAnzahl; j++) {
-      const t = graustufenAnzahl === 1 ? 0 : j / (graustufenAnzahl - 1); // 0..1
-      const lightness = hellsterGrauton + t * (dunkelsterGrauton - hellsterGrauton);
-      grautoeneArray.push(`hsl(0 0% ${lightness}%)`);
+  private fixAdjacentDuplicates(
+    palette: string[],
+    base: string[]
+  ): string[] {
+    const result = [...palette];
+    const n = result.length;
+
+    for (let i = 0; i < n; i++) {
+      const left = result[(i - 1 + n) % n];
+      const right = result[(i + 1) % n];
+
+      if (result[i] === left || result[i] === right) {
+        const alternatives = base.filter(
+          c => c !== left && c !== right
+        );
+
+        if (alternatives.length > 0) {
+          // deterministisch, kein neues Random nötig
+          result[i] = alternatives[i % alternatives.length];
+        }
+      }
     }
 
-    return grautoeneArray.reverse();
+    return result;
   }
+
 }
