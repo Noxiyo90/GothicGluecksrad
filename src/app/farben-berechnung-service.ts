@@ -5,10 +5,20 @@ import { Injectable } from '@angular/core';
 })
 export class FarbenBerechnungService {
 
-  private readonly farbPalette: string[] = this.createFarbPalette();
+  readonly BASEFARBEN: string[] = [
+    'hsl(215 25% 28%)',
+    'hsl(215 25% 34%)',
+    'hsl(215 25% 40%)',
+    'hsl(215 25% 46%)',
+    'hsl(215 25% 52%)',
+    'hsl(215 25% 58%)',
+    'hsl(215 25% 64%)',
+  ];
+
+  private readonly farbPalette: string[] = this.createFarbPalette(this.BASEFARBEN);
 
   buildSegmenteCssString(anzahlSegmente: number, gewinnerSegment: number | null, highlightWinner: boolean): string {
-    const farben = this.farbPalette.slice(0, anzahlSegmente);
+    const farben = this.fixAdjacentDuplicates(this.farbPalette.slice(0, anzahlSegmente), this.BASEFARBEN, anzahlSegmente);
     let segmentListe: string[] = []
 
     let currentWinkel = 0;
@@ -34,50 +44,57 @@ export class FarbenBerechnungService {
     return `conic-gradient(${segmentListe.join(', ')})`
   }
 
-  private createFarbPalette(): string[] {
-    const BASEFARBEN = [
-      'hsl(215 25% 28%)',
-      'hsl(215 25% 34%)',
-      'hsl(215 25% 40%)',
-      'hsl(215 25% 46%)',
-      'hsl(215 25% 52%)',
-      'hsl(215 25% 58%)',
-      'hsl(215 25% 64%)',
-    ];
+  private createFarbPalette(baseFarben: string[]): string[] {
     const PALETTENGROESSE = 100;
     const result: string[] = [];
-
     for (let i = 0; i < PALETTENGROESSE; i++) {
-      const randomIndex = Math.floor(Math.random() * BASEFARBEN.length);
-      result.push(BASEFARBEN[randomIndex]);
+      const randomIndex = Math.floor(Math.random() * baseFarben.length);
+      result.push(baseFarben[randomIndex]);
     }
-    return this.fixAdjacentDuplicates(result, BASEFARBEN);
+    return result
   }
 
   private fixAdjacentDuplicates(
-    palette: string[],
-    base: string[]
+    zuFixendePalette: string[],
+    basefarben: string[],
+    anzahlSegmente: number
   ): string[] {
-    const result = [...palette];
-    const n = result.length;
 
-    for (let i = 0; i < n; i++) {
-      const left = result[(i - 1 + n) % n];
-      const right = result[(i + 1) % n];
+    zuFixendePalette.forEach((color, index) => {
+      const linkeFarbe =
+        zuFixendePalette[(index - 1 + anzahlSegmente) % anzahlSegmente];
+      const rechteFarbe =
+        zuFixendePalette[(index + 1) % anzahlSegmente];
 
-      if (result[i] === left || result[i] === right) {
-        const alternatives = base.filter(
-          c => c !== left && c !== right
+      if (color === linkeFarbe || color === rechteFarbe) {
+        const alternatives = basefarben.filter(
+          c => c !== linkeFarbe && c !== rechteFarbe
         );
 
         if (alternatives.length > 0) {
-          // deterministisch, kein neues Random nötig
-          result[i] = alternatives[i % alternatives.length];
+          zuFixendePalette[index] =
+            alternatives[index % alternatives.length];
         }
+      }
+    });
+
+    if (
+      anzahlSegmente > 1 &&
+      zuFixendePalette[0] === zuFixendePalette[anzahlSegmente - 1]
+    ) {
+      const alternatives = basefarben.filter(
+        c =>
+          c !== zuFixendePalette[1] &&
+          c !== zuFixendePalette[anzahlSegmente - 1]
+      );
+
+      if (alternatives.length > 0) {
+        zuFixendePalette[0] = alternatives[0];
       }
     }
 
-    return result;
+    return zuFixendePalette;
   }
+
 
 }
