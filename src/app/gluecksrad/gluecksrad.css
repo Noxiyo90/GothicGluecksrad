@@ -124,3 +124,18 @@
   margin-bottom: 20px;
 }
 
+.rad-label__inner {
+  color: white;
+  font-size: 0.9vw;
+  max-width: 11vw;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3;
+
+  /* leichte Umrandung für Lesbarkeit */
+  text-shadow:
+    0 0 5px rgba(0, 0, 0, 0.9),
+    0 0 3px rgba(0, 0, 0, 0.7);
+}
+

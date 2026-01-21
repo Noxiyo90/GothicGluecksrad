@@ -93,19 +93,6 @@ export class Gluecksrad {
     };
   }
 
-
-  labelTextStyle() {
-    return {
-      color: 'white',
-      fontSize: '0.9vw',
-      maxWidth: '11vw',
-      textAlign: 'center',
-      whiteSpace: 'normal',
-      wordBreak: 'break-word',
-      lineHeight: '1.3',
-    };
-  }
-
   /**
    * Komplizierte Rechnung, aber hier einmal verständlich erklärt:
    *
