@@ -1,4 +1,4 @@
-import {Component, computed, input, output, signal} from '@angular/core';
+import {Component, computed, effect, input, output, signal} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {FarbenBerechnungService} from '../farben-berechnung-service';
 import {SegmentGruppe} from '../daten';
@@ -16,8 +16,6 @@ export class Gluecksrad {
   readonly drehzeitMs: number = 4000;
 
   segmentGruppe = input<SegmentGruppe>();
-  // werte = input<string[]>([]);
-  // ueberschrift = input<string>();
   started = input<boolean>(false);
 
   anzahlSegmente = computed(() => this.segmentGruppe()!.werte.length);
@@ -32,7 +30,14 @@ export class Gluecksrad {
   highlightWinner = signal(false);
 
   constructor(private farbenBerechnungService: FarbenBerechnungService) {
+    effect(() => {
+      this.segmentGruppe();
+      this.gewinnerSegment.set(null);
+      this.highlightWinner.set(false);
+    });
   }
+
+
 
   onDrehen(){
       this.highlightWinner.set(false)

@@ -9,8 +9,8 @@
 }
 
 .rad-scheibe {
-  position: relative;
   width: 100%;
+  position: relative;
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
@@ -115,7 +115,7 @@
 .ueberschrift-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 4rem;
 }
 
 .ueberschrift {

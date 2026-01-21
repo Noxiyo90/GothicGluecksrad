@@ -60,7 +60,7 @@ export interface SegmentGruppe {
 export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   {
     id: 'default',
-    name: 'Willkommen',
+    name: '@JorgensonYT',
     werte: [
       'Einen wunderschönen guten Tag',
       "Kümmerliche Vorstellung",
@@ -188,7 +188,6 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
     id: 'alter',
     name: 'Alter',
     werte: [
-      "10",
       "20",
       "30",
       "40",
