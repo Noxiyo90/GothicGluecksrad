@@ -32,16 +32,28 @@ export class App {
   }
 
   next() {
-    const currentIndex = this.alleGruppen.findIndex(g => g.id === this.aktuelleId());
-    const nextIndex = (currentIndex + 1) % this.alleGruppen.length;
-    this.aktuelleId.set(this.alleGruppen[nextIndex].id);
+    const sichtbare = this.auswahlComponent.aktiveFelder(); // Signal aufrufen
+    const currentId = this.aktuelleId();
+    const currentIndex = sichtbare.indexOf(currentId as keyof CharacterData);
+
+    const nextIndex = (currentIndex + 1) % sichtbare.length;
+    const nextId = sichtbare[nextIndex];
+
+    this.aktuelleId.set(nextId);
   }
 
+
   prev() {
-    const currentIndex = this.alleGruppen.findIndex(g => g.id === this.aktuelleId());
-    const prevIndex = (currentIndex - 1 + this.alleGruppen.length) % this.alleGruppen.length;
-    this.aktuelleId.set(this.alleGruppen[prevIndex].id);
+    const sichtbare = this.auswahlComponent.aktiveFelder();
+    const currentId = this.aktuelleId();
+    const currentIndex = sichtbare.indexOf(currentId as keyof CharacterData);
+
+    const prevIndex = (currentIndex - 1 + sichtbare.length) % sichtbare.length;
+    const prevId = sichtbare[prevIndex];
+
+    this.aktuelleId.set(prevId);
   }
+
 
   start() {
     this.aktuelleId.set('herkunft');

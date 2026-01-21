@@ -3,6 +3,7 @@
     <app-gluecksrad
       [werte]="aktuelleGruppe().werte"
       [started]="started()"
+      [ueberschrift]="aktuelleGruppe().name"
       (gewinnerSegmentOutput)="gewinnerSegmentOutput($event)"
     ></app-gluecksrad>
 

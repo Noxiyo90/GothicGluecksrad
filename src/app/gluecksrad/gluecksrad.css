@@ -111,3 +111,16 @@
     transform: rotate(360deg);
   }
 }
+
+.ueberschrift-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.ueberschrift {
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+

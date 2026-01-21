@@ -15,8 +15,8 @@ button {
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* immer 2 Spalten */
+  grid-template-columns: 1fr 1fr 1fr;  /* immer 3 Spalten */
   gap: 1.5rem;                      /* Abstand zwischen Feldern */
-  width: 100%;
+  width: 40rem;
 }
 

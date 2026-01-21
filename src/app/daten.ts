@@ -33,6 +33,7 @@ export type SegmentId =
   | 'geschick'
   | 'magiebegabung'
   | 'magiekreis'
+  | 'lieblingszauber'
   | 'alter'
   | 'nahkampf'
   | 'nahkampfwaffe'
@@ -52,22 +53,23 @@ export type SegmentId =
 
 export interface SegmentGruppe {
   id: SegmentId;
+  name: string;
   werte: string[];
 }
 
 export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   {
     id: 'default',
+    name: 'Willkommen',
     werte: [
       'Einen wunderschönen guten Tag',
       "Kümmerliche Vorstellung",
       'https://www.youtube.com/@JorgensonYT',
-      'Der Entwickler dieser App hasst CSS',
-      // 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
     ]
   },
   {
     id: 'herkunft',
+    name: 'Herkunft',
     werte: [
       "Nordmar",
       "Myrtana",
@@ -82,6 +84,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'fraktion',
+    name: 'Fraktion / Gilde',
     werte: [
       "Feuermagier",
       "Wassermagier",
@@ -107,6 +110,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'staerke',
+    name: 'Stärke',
     werte: [
       "20",
       "40",
@@ -122,6 +126,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'geschick',
+    name: 'Geschick',
     werte: [
       "20",
       "40",
@@ -137,6 +142,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'magiebegabung',
+    name: 'Magiebegabung?',
     werte: [
       "Ja",
       "Nein"
@@ -144,6 +150,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'magiekreis',
+    name: 'Magiekreis',
     werte: [
       "Kreis 1",
       "Kreis 2",
@@ -154,7 +161,32 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
     ]
   },
   {
+    id: 'lieblingszauber',
+    name: 'Lieblingszauber',
+    werte: [
+      "Licht",
+      "Heilung",
+      "Feuerpfeil",
+      "Feuerball",
+      "Feuersturm",
+      "Feuerregen",
+      "Schlaf",
+      "Windfaust",
+      "Telekinese",
+      "Pyrokinese",
+      "Kontrolle",
+      "Sturmfaust",
+      "Eispfeil",
+      "Eisblock",
+      "Kugelblitz",
+      "Blitz",
+      "Eiswelle",
+      "Todeshauch"
+    ]
+  },
+  {
     id: 'alter',
+    name: 'Alter',
     werte: [
       "10",
       "20",
@@ -171,21 +203,72 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'nahkampf',
+    name: 'Nahkampf?',
     werte: [
       "Ja",
       "Nein"
     ]
   },
   {
-    // TODO: Nahkampfwaffen einfügen
     id: 'nahkampfwaffe',
+    name: 'Nahkampfwaffe',
     werte: [
+      "Ulu-mulu",
+      "Roter Wind",
+      "Schädelspalter",
+      "Knochenbrecher",
+      "Streitkolben",
+      "Stachelkeule",
+      "Blutfliegenstachel",
+      "Stahlzunge",
+      "Morgenstern",
+      "Stahlgeflecht",
+      "Steinbrecher",
+      "Grobes Schwert",
+      "Richtschwert",
+      "Gardeschwert",
+      "Kampfschwert",
+      "Kriegsschwert",
+      "Schlächter",
+      "Vollstrecker",
+      "Berserkerwort",
+      "Breitschwert",
+      "Kriegerurteil",
+      "Sturmgeflüster",
+      "Gardistenhand",
+      "Langschwert",
+      "Furchtbringer",
+      "Hassbringer",
+      "Siegbringer",
+      "Todbringer",
+      "Kurzschwert",
+      "Bauernwehr",
+      "Buddlerzucht",
+      "Orkhammer",
+      "Kriegshammer",
+      "Götterhammer",
+      "rostiger Zweihänder",
+      "Streitaxt",
+      "Kriegerstimme",
+      "Babarenfaust",
+      "Trollfaust",
+      "Donnerschlag",
       "Zweihänder",
-      "Einhänder"
+      "Heldenschneide",
+      "Blutschneide",
+      "schwerer Zweihänder",
+      "Zornstahl",
+      "Grimmstahl",
+      "Rachestahl",
+      "leichter Zweihänder",
+      "Hüterklinge",
+      "Söldnerklinge",
+      "Königsklinge",
     ]
   },
   {
     id: 'nahkampffertigkeit',
+    name: 'Nahkampf-Fertigkeit',
     werte: [
       "Anfänger",
       "Kämpfer",
@@ -194,21 +277,44 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'fernkampf',
+    name: 'Fernkampf',
     werte: [
       "Ja",
       "Nein"
     ]
   },
   {
-    // Todo: Fernkampfwaffen einfügen
     id: 'fernkampfwaffe',
+    name: 'Fernkampfwaffe',
     werte: [
+      "Drachenjägerarmbrust",
+      "Schwere Armbrust",
+      "Kriegsarmbrust",
+      "Armbrust",
+      "Leichte Armbrust",
+      "Dragomirs Armbrust",
+      "Jagdarmbrust",
+      "Armbrust",
+      "Sengraths Armbrust",
+      "Drachenbogen",
+      "Kriegsbogen",
+      "Eichenbogen",
+      "Knochenbogen",
+      "Buchenbogen",
+      "Langbogen",
+      "Eschenbogen",
+      "Kompositbogen",
+      "Ulmenbogen",
+      "Jagdbogen",
+      "Bospers Jagdbogen",
+      "Weidenbogen",
       "Bogen",
-      "Armbrust"
+      "Kurzbogen"
     ]
   },
   {
     id: 'fernkampffertigkeit',
+    name: 'Fernkampf-Fertigkeit',
     werte: [
       "Anfänger",
       "Kämpfer",
@@ -217,6 +323,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'goettergabe',
+    name: 'Göttergabe',
     werte: [
       "Segen",
       "Fluch",
@@ -225,6 +332,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'adanosfluch',
+    name: 'Adanos-Fluch',
     werte: [
       "Segen",
       "Fluch",
@@ -233,6 +341,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'adanossegen',
+    name: 'Adanos-Segen',
     werte: [
       "Segen",
       "Fluch",
@@ -241,6 +350,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'innossegen',
+    name: 'Innos-Segen',
     werte: [
       "Segen",
       "Fluch",
@@ -249,6 +359,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'innosfluch',
+    name: 'Innos-Fluch',
     werte: [
       "Segen",
       "Fluch",
@@ -256,6 +367,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
     ]
   }, {
     id: 'beliarsegen',
+    name: 'Beliar-Segen',
     werte: [
       "Segen",
       "Fluch",
@@ -264,6 +376,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'beliarfluch',
+    name: 'Beliar-Fluch',
     werte: [
       "Segen",
       "Fluch",
@@ -272,6 +385,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'gott',
+    name: 'Gott',
     werte: [
       "Innos",
       "Adanos",
@@ -280,6 +394,7 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
   },
   {
     id: 'mission',
+    name: 'Mission / Lebensziel',
     werte: [
       "Jage einen Schattenläufer mit Fäusten",
       "Erkunde den Nebelturm",
@@ -296,6 +411,9 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
       "Stehle das Kassenbuch der Diebesgilde",
       "Erkunde die Ruinen von Jharkendar",
       "Bringe den Söldnern das Konzept von Hygiene näher",
+      "Klaue Y'Berion eine Palmenfrau",
+      "Rutsche den Erzhaufen herunter",
+      "Werde der beste Freund von Mud"
     ]
   }
 

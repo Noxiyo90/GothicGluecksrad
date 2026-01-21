@@ -1,19 +1,20 @@
 <h1>Dein Gothic-Charakter</h1>
-<div class="form-grid">
+<div class="form-grid field">
   <input [value]="characterData().name || ''" id='name' placeholder="Name" readonly>
   <input [value]="characterData().herkunft || ''" id='herkunft' placeholder="Herkunft" readonly>
   <input [value]="characterData().fraktion || ''" id='fraktion' placeholder="Fraktion/Gilde" readonly>
   <input [value]="characterData().staerke || ''" id='staerke' placeholder="Stärke" readonly>
   <input [value]="characterData().geschick || ''" id='geschick' placeholder="Geschick" readonly>
   <input [value]="characterData().magiebegabung || ''" id='magiebegabung' placeholder="Magiebegabung" readonly>
-  <input [value]="characterData().magiekreis || ''" id='magiekreis' placeholder="Magiekreis" readonly>
+  @if (sichtbarkeit().magiekreis) { <input [value]="characterData().magiekreis || ''" placeholder="Magiekreis" readonly/> }
+  @if (sichtbarkeit().lieblingszauber) { <input [value]="characterData().lieblingszauber || ''" placeholder="Lieblingszauber" readonly/> }
   <input [value]="characterData().alter || ''" id='alter' placeholder="Alter" readonly>
   <input [value]="characterData().nahkampf || ''" id='nahkampf' placeholder="Nahkampf?" readonly>
   @if (sichtbarkeit().nahkampfwaffe) { <input [value]="characterData().nahkampfwaffe || ''" placeholder="Nahkampfwaffe" readonly/> }
   @if (sichtbarkeit().nahkampffertigkeit) { <input [value]="characterData().nahkampffertigkeit || ''" placeholder="Nahkampffertigkeit" readonly/> }
   <input [value]="characterData().fernkampf || ''" id='fernkampf' placeholder="Fernkampf?" readonly>
-  @if (sichtbarkeit().nahkampfwaffe) { <input [value]="characterData().nahkampfwaffe || ''" placeholder="Nahkampfwaffe" readonly/> }
-  @if (sichtbarkeit().nahkampffertigkeit) { <input [value]="characterData().nahkampffertigkeit || ''" placeholder="Nahkampffertigkeit" readonly/> }
+  @if (sichtbarkeit().fernkampfwaffe) { <input [value]="characterData().fernkampfwaffe || ''" placeholder="Fernkampfwaffe" readonly/> }
+  @if (sichtbarkeit().nahkampffertigkeit) { <input [value]="characterData().fernkampffertigkeit || ''" placeholder="Fernkampffertigkeit" readonly/> }
   <input [value]="characterData().goettergabe || ''" id='goettergabe' placeholder="Göttergabe" readonly>
   @if (sichtbarkeit().gott) { <input [value]="characterData().gott || ''" placeholder="Gott" readonly/> }
   @if (sichtbarkeit().adanossegen) { <input [value]="characterData().adanossegen || ''" placeholder="Segen Adanos'" readonly/> }
@@ -22,5 +23,5 @@
   @if (sichtbarkeit().innosfluch) { <input [value]="characterData().innosfluch || ''" placeholder="Fluch Innos'" readonly/> }
   @if (sichtbarkeit().beliarsegen) { <input [value]="characterData().beliarsegen || ''" placeholder="Segen Beliars'" readonly/> }
   @if (sichtbarkeit().beliarfluch) { <input [value]="characterData().beliarfluch || ''" placeholder="Fluch Beliars'" readonly/> }
-  <input [value]="characterData().mission || ''" id='mission' placeholder="Mission/Ziel" readonly>
 </div>
+  <input width="100%"  [value]="characterData().mission || ''" id='mission' placeholder="Mission/Ziel" readonly>

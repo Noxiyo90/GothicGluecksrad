@@ -15,6 +15,7 @@ export class Gluecksrad {
   readonly drehzeitMs: number = 4000;
 
   werte = input<string[]>([]);
+  ueberschrift = input<string>();
   started = input<boolean>(false);
 
   anzahlSegmente = computed(() => this.werte().length);
