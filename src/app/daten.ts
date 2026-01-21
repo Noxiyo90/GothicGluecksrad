@@ -333,53 +333,71 @@ export const SEGMENT_GRUPPEN: SegmentGruppe[] = [
     id: 'adanosfluch',
     name: 'Adanos-Fluch',
     werte: [
-      "Segen",
-      "Fluch",
-      "Keine"
+      "Adanos Tränen (-20% Mana)",
+      "Fluch des Gegenstroms (-15% Bewegungsgeschwindigkeit)",
+      "Fluch der Gezeiten (+50% Größe bei Flut, -50% Größe bei Ebbe)",
+      "Austrocknung (verliere jede Minute 5% Mana)",
+      "Adanos' Sturheit (Du kannst nicht nein sagen)",
+      "Adanos' Nachgeben (Du kannst nicht ja sagen)"
     ]
   },
   {
     id: 'adanossegen',
     name: 'Adanos-Segen',
     werte: [
-      "Segen",
-      "Fluch",
-      "Keine"
+      "Wasserwandeln (Du kannst über Wasser laufen)",
+      "Segen der Weisheit (Bekomme jede Minute 5% Mana)",
+      "Mit der Strömung (+15% Bewegungsgeschwindigkeit)",
+      "Adanoswesen (Du kannst dich 5 Meter näher an wilde Tiere nähern, ohne Reaktionen auszulösen",
+      "Innere Balance (+5% Mana, +5% Geschick, +5% Stärke)",
+      "Macht der Gezeiten (+10% Schaden bei Regen)"
     ]
   },
   {
     id: 'innossegen',
     name: 'Innos-Segen',
     werte: [
-      "Segen",
-      "Fluch",
-      "Keine"
+      "Macht des Lichts (+10% Schaden bei Sonnenschein)",
+      "Aura der Sonne (+10% Mana)",
+      "Schild des Feuers (+10% Rüstungsschutz)",
+      "Flammende Reinheit (Du bist immun gegen Gift)",
+      "Lodernder Wille (+10% Leben)",
+      "Segen der Bedürftigen (Du findest 10% mehr Gold)"
     ]
   },
   {
     id: 'innosfluch',
     name: 'Innos-Fluch',
     werte: [
-      "Segen",
-      "Fluch",
-      "Keine"
+      "Wesen des Tages (Du fängst in der Dunkelheit Feuer und bekommst pro Sekunde 1% Schaden)",
+      "Innos Zorn (Menschen greifen dich mit erhöhter Wahrscheinlichkeit an)",
+      "Gebrochener Wille (-20% Ausdauer)",
+      "Verdorrte Kraft (Du bist nicht mehr in der Lage Zweihandwaffen zu führen)",
+      "Seelenbrand (-10% Leben, -10% Mana)",
+      "Scherge Beliars (Auf innosgeweihten Boden erblindest du)"
     ]
   }, {
     id: 'beliarsegen',
     name: 'Beliar-Segen',
     werte: [
-      "Segen",
-      "Fluch",
-      "Keine"
+      "Macht der Dunkelheit (+10% Schaden bei Nacht)",
+      "Aderlass (Opfere 10% Leben für 10% Mana)",
+      "Nachtsicht (Keine Sichteinschränkung in der Dunkelheit)",
+      "Orksöldner (Orks greifen dich nicht an)",
+      "Übermenschliche Kraft (+10% Stärke, +10% Leben, -10% Mana, -10% Geschick)",
+      "Auf ewig gebunden (+10% auf alle Werte, nach dem Tod wirst du ein Untoter)"
     ]
   },
   {
     id: 'beliarfluch',
     name: 'Beliar-Fluch',
     werte: [
-      "Segen",
-      "Fluch",
-      "Keine"
+      "Wesen der Nacht (Sonnenlicht fügt dir pro Sekunde 1% Schaden zu)",
+      "Beliars Gier (Jeder Erzbrocken des Charakters wird zu Stein)",
+      "Geißel der Schwachen (-20% Stärke)",
+      "Blutopfer (Du fügst mit jedem Treffer eine Blutung hinzu, bekommst jedoch auch mit jedem Treffer eine Blutung)",
+      "Fluch der Ungeduld (Du kannst nicht stillstehen)",
+      "Ewige Qual (Dir folgt immer ein Mud-Geist den nur du sehen kannst)"
     ]
   },
   {
