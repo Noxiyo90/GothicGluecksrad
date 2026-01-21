@@ -1,5 +1,5 @@
 <div class="ueberschrift-wrapper">
-  <span class="ueberschrift">{{ ueberschrift() }}</span>
+  <span class="ueberschrift">{{ segmentGruppe()!.name }}</span>
 </div>
 
 <div class="rad-wrapper">
@@ -13,7 +13,7 @@
          }">
 
       <div class="rad-labels">
-        @for (wert of werte(); track $index) {
+        @for (wert of segmentGruppe()!.werte; track $index) {
           <div
             class="rad-label"
             [ngStyle]="labelContainerStyle($index)"
@@ -30,8 +30,14 @@
     </div>
 
   </div>
-  <button class="starter" type="button" (click)="onDrehen()">
-    Drehen
-  </button>
+  @if (segmentGruppe()!.id === 'default') {
+    <button class="starter" type="button" (click)="start()">
+      Start!
+    </button>
+  } @else {
+    <button class="starter" type="button" (click)="onDrehen()">
+      Drehen
+    </button>
+  }
   <div class="zeiger"></div>
 </div>

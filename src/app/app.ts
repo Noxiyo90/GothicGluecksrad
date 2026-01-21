@@ -54,12 +54,6 @@ export class App {
     this.aktuelleId.set(prevId);
   }
 
-
-  start() {
-    this.aktuelleId.set('herkunft');
-    this.started.set(true);
-  }
-
   gewinnerSegmentOutput($event: number) {
     const feld = this.aktuelleGruppe().id as keyof CharacterData;
     const wert = this.aktuelleGruppe().werte[$event];
@@ -67,4 +61,7 @@ export class App {
     this.updateCharacterData(feld, wert);
   }
 
+  startGame() {
+    this.next()
+  }
 }

@@ -1,6 +1,7 @@
 import {Component, computed, input, output, signal} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {FarbenBerechnungService} from '../farben-berechnung-service';
+import {SegmentGruppe} from '../daten';
 
 @Component({
   selector: 'app-gluecksrad',
@@ -14,11 +15,12 @@ export class Gluecksrad {
   // auch im gluecksrad.css bei "transition: transform 4s" anpassen
   readonly drehzeitMs: number = 4000;
 
-  werte = input<string[]>([]);
-  ueberschrift = input<string>();
+  segmentGruppe = input<SegmentGruppe>();
+  // werte = input<string[]>([]);
+  // ueberschrift = input<string>();
   started = input<boolean>(false);
 
-  anzahlSegmente = computed(() => this.werte().length);
+  anzahlSegmente = computed(() => this.segmentGruppe()!.werte.length);
 
 
   derzeitigerRotationsWinkel = signal(0);
@@ -26,21 +28,24 @@ export class Gluecksrad {
 
   gewinnerSegment = signal<number | null>(null);
   gewinnerSegmentOutput = output<number>();
+  startGame = output<void>();
   highlightWinner = signal(false);
 
   constructor(private farbenBerechnungService: FarbenBerechnungService) {
   }
 
   onDrehen(){
-    if (this.started()) {
-      this.idleDrehen.set(false);
       this.highlightWinner.set(false)
       this.berechneNeueRotation()
       setTimeout(() => {
         this.berechneGewinnerSegment();
         this.highlightWinner.set(true);
       }, this.drehzeitMs + 50);
-    }
+  }
+
+  start() {
+    this.idleDrehen.set(false);
+    this.startGame.emit();
   }
 
   gradient = computed(() => {

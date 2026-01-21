@@ -1,20 +1,16 @@
 <div class="layout">
   <div class="layout__wheel">
     <app-gluecksrad
-      [werte]="aktuelleGruppe().werte"
+      [segmentGruppe]="aktuelleGruppe()"
       [started]="started()"
-      [ueberschrift]="aktuelleGruppe().name"
       (gewinnerSegmentOutput)="gewinnerSegmentOutput($event)"
+      (startGame)="startGame()"
     ></app-gluecksrad>
 
-    @if (aktuelleId() === 'default') {
-        <button class="wheel-button-start" (click)="start()">Start</button>
-    } @else {
       <div class="wheel-buttons">
         <button (click)="prev()">Zurück</button>
         <button (click)="next()">Weiter</button>
       </div>
-    }
   </div>
 
   <div class="layout__controls">
