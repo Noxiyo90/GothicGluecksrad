@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharakterModal } from './charakter-modal';
 import { CharacterData } from '../daten';
+import { PdfExportService } from '../pdf-export-service';
 
 const VOLLER_CHARAKTER: CharacterData = {
   herkunft: 'Nordmar',
@@ -276,6 +277,30 @@ describe('CharakterModal', () => {
       setup(VOLLER_CHARAKTER);
       const grid = (fixture.nativeElement as HTMLElement).querySelector('.felder-grid') as HTMLElement;
       expect(getComputedStyle(grid).gridTemplateColumns.split(' ').length).toBe(3);
+    });
+  });
+
+  // ─── PDF Export ───────────────────────────────────────────────────────────
+
+  describe('PDF Export', () => {
+    it('hat einen PDF-Button', () => {
+      setup(VOLLER_CHARAKTER);
+      const btn = (fixture.nativeElement as HTMLElement).querySelector('.pdf-btn');
+      expect(btn?.textContent?.trim()).toBe('PDF');
+    });
+
+    it('ruft pdfExportService.exportiere() beim Klick auf PDF-Button auf', () => {
+      setup(VOLLER_CHARAKTER);
+      const spy = spyOn(TestBed.inject(PdfExportService), 'exportiere').and.returnValue(Promise.resolve());
+      (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.pdf-btn')!.click();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('übergibt den Charakternamen als Dateinamen', () => {
+      setup(VOLLER_CHARAKTER, 'Harek Trolltöter');
+      const spy = spyOn(TestBed.inject(PdfExportService), 'exportiere').and.returnValue(Promise.resolve());
+      (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.pdf-btn')!.click();
+      expect(spy).toHaveBeenCalledWith(jasmine.any(HTMLElement), 'Harek Trolltöter');
     });
   });
 

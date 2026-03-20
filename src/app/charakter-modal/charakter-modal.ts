@@ -1,5 +1,6 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, ElementRef, ViewChild, computed, inject, input, output } from '@angular/core';
 import { CharacterData } from '../daten';
+import { PdfExportService } from '../pdf-export-service';
 
 interface FeldAnzeige {
   label: string;
@@ -79,6 +80,16 @@ export class CharakterModal {
   characterData = input.required<CharacterData>();
   name = input.required<string>();
   neuStarten = output<void>();
+
+  @ViewChild('steckbrief') steckbrief!: ElementRef<HTMLElement>;
+  private pdfExportService = inject(PdfExportService);
+
+  async exportierePdf(): Promise<void> {
+    const aktionen = this.steckbrief.nativeElement.querySelector('.modal-aktionen') as HTMLElement;
+    aktionen.style.display = 'none';
+    await this.pdfExportService.exportiere(this.steckbrief.nativeElement, this.name());
+    aktionen.style.display = '';
+  }
 
   gruppen = computed<GruppeAnzeige[]>(() => {
     const data = this.characterData();

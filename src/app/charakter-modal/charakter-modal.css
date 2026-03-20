@@ -80,8 +80,22 @@ h2[data-testid='charakter-name'] {
 }
 
 .modal-aktionen {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   margin-top: 1rem;
+}
+
+.pdf-btn {
+  position: absolute;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  opacity: 0.6;
 }
 
 .modal-aktionen button {
