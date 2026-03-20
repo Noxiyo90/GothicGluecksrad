@@ -13,3 +13,11 @@
     ></app-auswahl>
   </div>
 </div>
+
+@if (oeffneModal()) {
+  <app-charakter-modal
+    [characterData]="auswahlComponent.characterData()"
+    [name]="generierterName()"
+    (neuStarten)="neuStarten()"
+  ></app-charakter-modal>
+}

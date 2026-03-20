@@ -20,7 +20,7 @@ export class Auswahl {
     }));
   }
 
-  felder: (keyof CharacterData)[] = [
+  private static readonly BASISFELDER: (keyof CharacterData)[] = [
     'herkunft',
     'fraktion',
     'alter',
@@ -32,6 +32,8 @@ export class Auswahl {
     'goettergabe',
     'mission',
   ];
+
+  felder: (keyof CharacterData)[] = [...Auswahl.BASISFELDER];
 
   sichtbarkeit = computed(() => {
     const data = this.characterData();
@@ -78,6 +80,11 @@ export class Auswahl {
 
     return this.felder;
   });
+
+  reset() {
+    this.characterData.set({});
+    this.felder = [...Auswahl.BASISFELDER];
+  }
 
   private fuegeInArrayEin(array: string[], eingabe: string, vorherigerString: string) {
     if (array.includes(eingabe)) return;

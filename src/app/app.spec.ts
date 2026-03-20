@@ -105,4 +105,54 @@ describe('App', () => {
       expect(bekannteIds).toContain(component.aktuelleGruppe().id);
     }));
   });
+
+  // ─── Modal ────────────────────────────────────────────────────────────────
+
+  describe('Modal', () => {
+    it('oeffneModal ist initial false', () => {
+      expect(component.oeffneModal()).toBeFalse();
+    });
+
+    it('oeffneModal wird true wenn mission gesetzt wird', () => {
+      fixture.detectChanges();
+      component.auswahlComponent.setField('herkunft', 'Nordmar');
+      component.updateCharacterData('mission', 'Töte einen Drachen');
+      expect(component.oeffneModal()).toBeTrue();
+    });
+
+    it('generierterName ist ein nicht-leerer String wenn mission gesetzt wird', () => {
+      fixture.detectChanges();
+      component.auswahlComponent.setField('herkunft', 'Nordmar');
+      component.updateCharacterData('mission', 'Töte einen Drachen');
+      expect(component.generierterName().trim().length).toBeGreaterThan(0);
+    });
+
+    it('neuStarten() setzt oeffneModal auf false', () => {
+      fixture.detectChanges();
+      component.auswahlComponent.setField('herkunft', 'Nordmar');
+      component.updateCharacterData('mission', 'Töte einen Drachen');
+      expect(component.oeffneModal()).toBeTrue();
+      component.neuStarten();
+      expect(component.oeffneModal()).toBeFalse();
+    });
+
+    it('neuStarten() setzt aktuelleId zurück auf default', fakeAsync(() => {
+      component.startGame();
+      fixture.detectChanges();
+      component.auswahlComponent.setField('mission', 'Töte einen Drachen');
+      fixture.detectChanges();
+      tick();
+      component.neuStarten();
+      expect(component.aktuelleId()).toBe('default');
+    }));
+
+    it('neuStarten() leert die CharacterData', fakeAsync(() => {
+      component.auswahlComponent.setField('herkunft', 'Nordmar');
+      component.auswahlComponent.setField('mission', 'Töte einen Drachen');
+      fixture.detectChanges();
+      tick();
+      component.neuStarten();
+      expect(component.auswahlComponent.characterData()).toEqual({});
+    }));
+  });
 });

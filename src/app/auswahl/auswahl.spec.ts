@@ -354,4 +354,51 @@ describe('Auswahl', () => {
       expect(labels.some(l => l.textContent?.trim() === 'Gott')).toBeFalse();
     });
   });
+
+  // ─── reset() ──────────────────────────────────────────────────────────────
+
+  describe('reset()', () => {
+    it('leert characterData vollständig', () => {
+      component.setField('herkunft', 'Nordmar');
+      component.setField('fraktion', 'Paladin/Miliz');
+      component.setField('staerke', '200');
+      component.reset();
+      expect(component.characterData()).toEqual({});
+    });
+
+    it('entfernt bedingte Felder aus aktiveFelder', () => {
+      component.setField('nahkampf', 'Ja');
+      component.setField('magiebegabung', 'Ja');
+      component.setField('magiekreis', 'Kreis 1');
+      component.aktiveFelder(); // Felder befüllen
+      component.reset();
+      const felder = component.aktiveFelder();
+      expect(felder).not.toContain('nahkampfwaffe');
+      expect(felder).not.toContain('nahkampffertigkeit');
+      expect(felder).not.toContain('magiekreis');
+      expect(felder).not.toContain('lieblingszauber');
+    });
+
+    it('stellt die Basis-Felder in der ursprünglichen Reihenfolge wieder her', () => {
+      component.setField('nahkampf', 'Ja');
+      component.aktiveFelder();
+      component.reset();
+      const felder = component.aktiveFelder();
+      const nahkampfIdx = felder.indexOf('nahkampf');
+      const fernkampfIdx = felder.indexOf('fernkampf');
+      expect(nahkampfIdx).toBeLessThan(fernkampfIdx);
+      expect(felder.indexOf('nahkampfwaffe')).toBe(-1);
+    });
+
+    it('alle Sichtbarkeiten sind nach reset() false', () => {
+      component.setField('magiebegabung', 'Ja');
+      component.setField('nahkampf', 'Ja');
+      component.setField('goettergabe', 'Segen');
+      component.reset();
+      const s = component.sichtbarkeit();
+      expect(s.magiekreis).toBeFalse();
+      expect(s.nahkampfwaffe).toBeFalse();
+      expect(s.gott).toBeFalse();
+    });
+  });
 });

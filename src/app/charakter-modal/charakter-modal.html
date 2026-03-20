@@ -1,0 +1,24 @@
+<div class="modal-backdrop">
+  <div class="modal-pergament">
+
+    <h2 data-testid="charakter-name">{{ name() }}</h2>
+
+    <hr class="pergament-linie">
+
+    <div class="felder-grid">
+      @for (feld of felder(); track feld.label) {
+        <div class="feld">
+          <span class="feld-label">{{ feld.label }}</span>
+          <span class="feld-wert">{{ feld.wert }}</span>
+        </div>
+      }
+    </div>
+
+    <hr class="pergament-linie">
+
+    <div class="modal-aktionen">
+      <button type="button" (click)="neuStarten.emit()">Neu starten</button>
+    </div>
+
+  </div>
+</div>
