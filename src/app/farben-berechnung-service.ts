@@ -6,13 +6,13 @@ import { Injectable } from '@angular/core';
 export class FarbenBerechnungService {
 
   readonly BASEFARBEN: string[] = [
-    'hsl(215 25% 28%)',
-    'hsl(215 25% 34%)',
-    'hsl(215 25% 40%)',
-    'hsl(215 25% 46%)',
-    'hsl(215 25% 52%)',
-    'hsl(215 25% 58%)',
-    'hsl(215 25% 64%)',
+    'hsl(20 40% 18%)',
+    'hsl(20 40% 26%)',
+    'hsl(20 40% 34%)',
+    'hsl(10 45% 22%)',
+    'hsl(10 45% 30%)',
+    'hsl(35 50% 24%)',
+    'hsl(35 50% 32%)',
   ];
 
   private readonly farbPalette: string[] = this.createFarbPalette(this.BASEFARBEN);

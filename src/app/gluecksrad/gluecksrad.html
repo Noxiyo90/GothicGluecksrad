@@ -29,8 +29,9 @@
 
   </div>
   @if (segmentGruppe()!.id === 'default') {
-    <button class="starter" type="button" (click)="start()">
-      Start!
+    <button class="starter starter--maske" type="button" (click)="start()">
+      <img src="/images/schlaefer.png" alt="Start" class="starter-maske">
+      <span class="starter-text">Starten</span>
     </button>
   } @else {
     <button class="starter" type="button" (click)="onDrehen()">

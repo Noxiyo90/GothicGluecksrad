@@ -1,6 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@picocss/pico/css/pico.min.css";
 
+/* ─── Gothic Theme ──────────────────────────────────────────────────────── */
+:root {
+  --gothic-bg:            #0c0a07;
+  --gothic-surface:       #16120d;
+  --gothic-surface-2:     #1f1a12;
+  --gothic-border:        #3d2e1a;
+  --gothic-border-bright: #7a5c28;
+  --gothic-gold:          #c8902a;
+  --gothic-gold-bright:   #e8b848;
+  --gothic-text:          #c8b898;
+  --gothic-text-muted:    #7a6a50;
+  --gothic-red:           #7a1a1a;
+
+  --font-heading: 'Cinzel', Georgia, serif;
+  --font-body:    'Cinzel', Georgia, serif;
+}
+
+html, body {
+  background-color: var(--gothic-bg);
+  background-image: url('/images/links.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--gothic-text);
+  font-family: var(--font-body);
+}
+
+/* Pico overrides */
+[data-theme="dark"], :root {
+  --pico-background-color:        var(--gothic-bg);
+  --pico-card-background-color:   var(--gothic-surface);
+  --pico-primary:                 var(--gothic-gold);
+  --pico-primary-hover:           var(--gothic-gold-bright);
+  --pico-color:                   var(--gothic-text);
+  --pico-muted-color:             var(--gothic-text-muted);
+  --pico-border-color:            var(--gothic-border);
+  --pico-form-element-background-color:       var(--gothic-surface-2);
+  --pico-form-element-border-color:           var(--gothic-border);
+  --pico-form-element-color:                  var(--gothic-text);
+  --pico-form-element-focus-color:            var(--gothic-gold);
+  --pico-form-element-placeholder-color:      var(--gothic-text-muted);
+}
+
+button {
+  font-family: var(--font-heading) !important;
+  letter-spacing: 0.05em;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.08em;
+  color: var(--gothic-gold);
+}
+
 .layout {
   display: flex;
   align-items: flex-start;
