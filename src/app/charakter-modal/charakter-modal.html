@@ -5,14 +5,24 @@
 
     <hr class="pergament-linie">
 
-    <div class="felder-grid">
-      @for (feld of felder(); track feld.label) {
-        <div class="feld">
-          <span class="feld-label">{{ feld.label }}</span>
-          <span class="feld-wert">{{ feld.wert }}</span>
-        </div>
+    @for (gruppe of gruppen(); track gruppe.titel; let last = $last) {
+      <div class="feld-gruppe">
+        <h3 class="gruppe-titel">{{ gruppe.titel }}</h3>
+        @for (zeile of gruppe.unterGruppen; track $index) {
+          <div class="felder-grid">
+            @for (feld of zeile; track feld.label) {
+              <div class="feld">
+                <span class="feld-label">{{ feld.label }}</span>
+                <span class="feld-wert">{{ feld.wert }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      @if (!last) {
+        <hr class="pergament-linie">
       }
-    </div>
+    }
 
     <hr class="pergament-linie">
 

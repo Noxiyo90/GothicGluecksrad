@@ -148,6 +148,137 @@ describe('CharakterModal', () => {
     });
   });
 
+  // ─── Gruppierung ──────────────────────────────────────────────────────────
+
+  describe('Gruppierung', () => {
+    it('gibt 5 Gruppen zurück wenn alle Felder gesetzt sind', () => {
+      setup(VOLLER_CHARAKTER);
+      expect(component.gruppen().length).toBe(5);
+    });
+
+    it('erste Gruppe hat den Titel "Herkunft & Identität"', () => {
+      setup(VOLLER_CHARAKTER);
+      expect(component.gruppen()[0].titel).toBe('Herkunft & Identität');
+    });
+
+    it('"Herkunft & Identität" enthält Herkunft, Fraktion und Alter', () => {
+      setup(VOLLER_CHARAKTER);
+      const labels = component.gruppen()[0].felder.map(f => f.label);
+      expect(labels).toContain('Herkunft');
+      expect(labels).toContain('Fraktion / Gilde');
+      expect(labels).toContain('Alter');
+    });
+
+    it('"Kampf & Fähigkeiten" enthält Stärke und Geschick', () => {
+      setup(VOLLER_CHARAKTER);
+      const kampfGruppe = component.gruppen().find(g => g.titel === 'Kampf & Fähigkeiten')!;
+      const labels = kampfGruppe.felder.map(f => f.label);
+      expect(labels).toContain('Stärke');
+      expect(labels).toContain('Geschick');
+    });
+
+    it('Magie-Gruppe fehlt wenn keine Magie-Felder gesetzt sind', () => {
+      const data: CharacterData = {
+        herkunft: 'Nordmar',
+        mission: 'Töte einen Drachen',
+      };
+      setup(data);
+      const gruppenTitel = component.gruppen().map(g => g.titel);
+      expect(gruppenTitel).not.toContain('Magie');
+    });
+
+    it('"Kampf & Fähigkeiten" hat 3 Unter-Zeilen wenn alle Felder gefüllt sind', () => {
+      setup(VOLLER_CHARAKTER);
+      const kampf = component.gruppen().find(g => g.titel === 'Kampf & Fähigkeiten')!;
+      expect(kampf.unterGruppen.length).toBe(3);
+    });
+
+    it('erste Unter-Zeile enthält nur Stärke und Geschick', () => {
+      setup(VOLLER_CHARAKTER);
+      const kampf = component.gruppen().find(g => g.titel === 'Kampf & Fähigkeiten')!;
+      const labels = kampf.unterGruppen[0].map(f => f.label);
+      expect(labels).toContain('Stärke');
+      expect(labels).toContain('Geschick');
+      expect(labels).not.toContain('Nahkampf');
+    });
+
+    it('zweite Unter-Zeile enthält Nahkampf-Felder', () => {
+      setup(VOLLER_CHARAKTER);
+      const kampf = component.gruppen().find(g => g.titel === 'Kampf & Fähigkeiten')!;
+      const labels = kampf.unterGruppen[1].map(f => f.label);
+      expect(labels).toContain('Nahkampf');
+      expect(labels).toContain('Nahkampfwaffe');
+      expect(labels).not.toContain('Fernkampf');
+    });
+
+    it('dritte Unter-Zeile enthält Fernkampf-Felder', () => {
+      setup(VOLLER_CHARAKTER);
+      const kampf = component.gruppen().find(g => g.titel === 'Kampf & Fähigkeiten')!;
+      const labels = kampf.unterGruppen[2].map(f => f.label);
+      expect(labels).toContain('Fernkampf');
+      expect(labels).not.toContain('Nahkampf');
+    });
+
+    it('Unter-Zeile ohne gefüllte Felder wird nicht ausgegeben', () => {
+      const data: CharacterData = { nahkampf: 'Ja', nahkampfwaffe: 'Schwert' };
+      setup(data);
+      const kampf = component.gruppen().find(g => g.titel === 'Kampf & Fähigkeiten')!;
+      expect(kampf.unterGruppen.length).toBe(1);
+      expect(kampf.unterGruppen[0].map(f => f.label)).toContain('Nahkampf');
+    });
+
+    it('letzte Gruppe ist immer "Mission"', () => {
+      setup(VOLLER_CHARAKTER);
+      const gruppen = component.gruppen();
+      expect(gruppen[gruppen.length - 1].titel).toBe('Mission');
+    });
+
+    it('Gruppen-Überschriften erscheinen im Template', () => {
+      setup(VOLLER_CHARAKTER);
+      const text = (fixture.nativeElement as HTMLElement).textContent!;
+      expect(text).toContain('Herkunft & Identität');
+      expect(text).toContain('Kampf & Fähigkeiten');
+      expect(text).toContain('Magie');
+      expect(text).toContain('Göttliche Gabe');
+      expect(text).toContain('Mission');
+    });
+
+    it('Gruppe ohne ausgefüllte Felder wird nicht gerendert', () => {
+      const data: CharacterData = {
+        herkunft: 'Nordmar',
+        mission: 'Töte einen Drachen',
+      };
+      setup(data);
+      const text = (fixture.nativeElement as HTMLElement).textContent!;
+      expect(text).not.toContain('Magie');
+      expect(text).not.toContain('Kampf & Fähigkeiten');
+      expect(text).not.toContain('Göttliche Gabe');
+    });
+  });
+
+  // ─── Layout ───────────────────────────────────────────────────────────────
+
+  describe('Layout', () => {
+    it('zeigt 6 Trennlinien bei 5 Gruppen (nach Name, zwischen Gruppen, vor Button)', () => {
+      setup(VOLLER_CHARAKTER);
+      const hrs = (fixture.nativeElement as HTMLElement).querySelectorAll('hr.pergament-linie');
+      expect(hrs.length).toBe(6);
+    });
+
+    it('zeigt 3 Trennlinien bei 2 Gruppen', () => {
+      const data: CharacterData = { herkunft: 'Nordmar', mission: 'Töte einen Drachen' };
+      setup(data);
+      const hrs = (fixture.nativeElement as HTMLElement).querySelectorAll('hr.pergament-linie');
+      expect(hrs.length).toBe(3);
+    });
+
+    it('Felder-Grid hat 3 Spalten', () => {
+      setup(VOLLER_CHARAKTER);
+      const grid = (fixture.nativeElement as HTMLElement).querySelector('.felder-grid') as HTMLElement;
+      expect(getComputedStyle(grid).gridTemplateColumns.split(' ').length).toBe(3);
+    });
+  });
+
   // ─── Neu starten ─────────────────────────────────────────────────────────
 
   describe('Neu starten', () => {

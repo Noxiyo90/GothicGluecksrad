@@ -6,30 +6,68 @@ interface FeldAnzeige {
   wert: string;
 }
 
-const FELD_REIHENFOLGE: { key: keyof CharacterData; label: string }[] = [
-  { key: 'herkunft',          label: 'Herkunft' },
-  { key: 'fraktion',          label: 'Fraktion / Gilde' },
-  { key: 'alter',             label: 'Alter' },
-  { key: 'staerke',           label: 'Stärke' },
-  { key: 'geschick',          label: 'Geschick' },
-  { key: 'magiebegabung',     label: 'Magiebegabung' },
-  { key: 'magiekreis',        label: 'Magiekreis' },
-  { key: 'lieblingszauber',   label: 'Lieblingszauber' },
-  { key: 'nahkampf',          label: 'Nahkampf' },
-  { key: 'nahkampfwaffe',     label: 'Nahkampfwaffe' },
-  { key: 'nahkampffertigkeit',label: 'Nahkampf-Fertigkeit' },
-  { key: 'fernkampf',         label: 'Fernkampf' },
-  { key: 'fernkampfwaffe',    label: 'Fernkampfwaffe' },
-  { key: 'fernkampffertigkeit',label: 'Fernkampf-Fertigkeit' },
-  { key: 'goettergabe',       label: 'Göttergabe' },
-  { key: 'gott',              label: 'Gott' },
-  { key: 'adanossegen',       label: 'Segen Adanos\'' },
-  { key: 'adanosfluch',       label: 'Fluch Adanos\'' },
-  { key: 'innossegen',        label: 'Segen Innos\'' },
-  { key: 'innosfluch',        label: 'Fluch Innos\'' },
-  { key: 'beliarsegen',       label: 'Segen Beliar\'' },
-  { key: 'beliarfluch',       label: 'Fluch Beliar\'' },
-  { key: 'mission',           label: 'Mission / Ziel' },
+export interface GruppeAnzeige {
+  titel: string;
+  felder: FeldAnzeige[];
+  unterGruppen: FeldAnzeige[][];
+}
+
+type FeldDef = { key: keyof CharacterData; label: string };
+const FELD_GRUPPEN: { titel: string; unterGruppen: FeldDef[][] }[] = [
+  {
+    titel: 'Herkunft & Identität',
+    unterGruppen: [[
+      { key: 'herkunft', label: 'Herkunft' },
+      { key: 'fraktion', label: 'Fraktion / Gilde' },
+      { key: 'alter',    label: 'Alter' },
+    ]],
+  },
+  {
+    titel: 'Kampf & Fähigkeiten',
+    unterGruppen: [
+      [
+        { key: 'staerke',  label: 'Stärke' },
+        { key: 'geschick', label: 'Geschick' },
+      ],
+      [
+        { key: 'nahkampf',           label: 'Nahkampf' },
+        { key: 'nahkampfwaffe',      label: 'Nahkampfwaffe' },
+        { key: 'nahkampffertigkeit', label: 'Nahkampf-Fertigkeit' },
+      ],
+      [
+        { key: 'fernkampf',           label: 'Fernkampf' },
+        { key: 'fernkampfwaffe',      label: 'Fernkampfwaffe' },
+        { key: 'fernkampffertigkeit', label: 'Fernkampf-Fertigkeit' },
+      ],
+    ],
+  },
+  {
+    titel: 'Magie',
+    unterGruppen: [[
+      { key: 'magiebegabung',   label: 'Magiebegabung' },
+      { key: 'magiekreis',      label: 'Magiekreis' },
+      { key: 'lieblingszauber', label: 'Lieblingszauber' },
+    ]],
+  },
+  {
+    titel: 'Göttliche Gabe',
+    unterGruppen: [[
+      { key: 'goettergabe', label: 'Göttergabe' },
+      { key: 'gott',        label: 'Gott' },
+      { key: 'adanossegen', label: 'Adanos-Segen' },
+      { key: 'adanosfluch', label: 'Adanos-Fluch' },
+      { key: 'innossegen',  label: 'Innos-Segen' },
+      { key: 'innosfluch',  label: 'Innos-Fluch' },
+      { key: 'beliarsegen', label: 'Beliar-Segen' },
+      { key: 'beliarfluch', label: 'Beliar-Fluch' },
+    ]],
+  },
+  {
+    titel: 'Mission',
+    unterGruppen: [[
+      { key: 'mission', label: 'Mission / Ziel' },
+    ]],
+  },
 ];
 
 @Component({
@@ -42,10 +80,18 @@ export class CharakterModal {
   name = input.required<string>();
   neuStarten = output<void>();
 
-  felder = computed<FeldAnzeige[]>(() => {
+  gruppen = computed<GruppeAnzeige[]>(() => {
     const data = this.characterData();
-    return FELD_REIHENFOLGE
-      .filter(f => !!data[f.key])
-      .map(f => ({ label: f.label, wert: data[f.key]! }));
+    return FELD_GRUPPEN
+      .map(gruppe => {
+        const unterGruppen = gruppe.unterGruppen
+          .map(zeile => zeile
+            .filter(f => !!data[f.key])
+            .map(f => ({ label: f.label, wert: data[f.key]! }))
+          )
+          .filter(zeile => zeile.length > 0);
+        return { titel: gruppe.titel, felder: unterGruppen.flat(), unterGruppen };
+      })
+      .filter(gruppe => gruppe.felder.length > 0);
   });
 }

@@ -14,7 +14,7 @@
   border: 2px solid #8b6914;
   border-radius: 4px;
   padding: 2rem 2.5rem;
-  max-width: 600px;
+  max-width: 900px;
   width: 90%;
   max-height: 85vh;
   overflow-y: auto;
@@ -37,16 +37,33 @@ h2[data-testid='charakter-name'] {
   opacity: 0.5;
 }
 
+.feld-gruppe {
+  margin-bottom: 1.2rem;
+}
+
+.gruppe-titel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8b6914;
+  margin: 0 0 0.4rem;
+  font-weight: normal;
+}
+
 .felder-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem 1.5rem;
-  margin: 1rem 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem 1.5rem;
+  margin: 0.3rem 0;
 }
 
 .feld {
   display: flex;
   flex-direction: column;
+}
+
+.felder-grid .feld:only-child {
+  grid-column: 1 / -1;
 }
 
 .feld-label {
@@ -81,6 +98,12 @@ h2[data-testid='charakter-name'] {
 
 .modal-aktionen button:hover {
   background: #5a2e00;
+}
+
+@media (max-width: 700px) {
+  .felder-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 500px) {
