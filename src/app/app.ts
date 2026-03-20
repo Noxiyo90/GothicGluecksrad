@@ -1,8 +1,7 @@
-import {Component, computed, signal, ViewChild} from '@angular/core';
+import {Component, computed, effect, signal, ViewChild} from '@angular/core';
 import {Gluecksrad} from './gluecksrad/gluecksrad';
 import {Auswahl} from './auswahl/auswahl';
 import {CharacterData, SEGMENT_GRUPPEN} from './daten';
-import {timeout} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +9,14 @@ import {timeout} from 'rxjs';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
+// TODO: Modal Pip
 export class App {
   alleGruppen = SEGMENT_GRUPPEN;
 
   aktuelleId = signal<string>('default');
 
   started = signal<boolean>(false);
+  oeffneModal = signal(false);
 
   aktuelleGruppe = computed(() =>
     this.alleGruppen.find(g => g.id === this.aktuelleId()) ?? this.alleGruppen[0]
@@ -28,7 +29,17 @@ export class App {
     setTimeout(() => {
       this.next()
     }, 1000)
+  }
 
+  constructor() {
+    effect(() => {
+      if (!this.auswahlComponent) return;
+      const mission = this.auswahlComponent.characterData().mission;
+
+      if (mission && mission.trim().length > 0) {
+        this.oeffneModal.set(true);
+      }
+    });
   }
 
   next() {
