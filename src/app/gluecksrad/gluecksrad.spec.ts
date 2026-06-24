@@ -1,6 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Gluecksrad } from './gluecksrad';
 import { SEGMENT_GRUPPEN, SegmentGruppe } from '../daten';
+import { SoundService } from '../sound.service';
 
 const DEFAULT_GRUPPE: SegmentGruppe = SEGMENT_GRUPPEN.find(g => g.id === 'default')!;
 const HERKUNFT_GRUPPE: SegmentGruppe = SEGMENT_GRUPPEN.find(g => g.id === 'herkunft')!;
@@ -15,10 +16,14 @@ const ZEHN_SEGMENTE: SegmentGruppe = {
 describe('Gluecksrad', () => {
   let component: Gluecksrad;
   let fixture: ComponentFixture<Gluecksrad>;
+  let soundService: jasmine.SpyObj<SoundService>;
 
   beforeEach(async () => {
+    soundService = jasmine.createSpyObj('SoundService', ['playRattle']);
+
     await TestBed.configureTestingModule({
       imports: [Gluecksrad],
+      providers: [{ provide: SoundService, useValue: soundService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Gluecksrad);
@@ -106,6 +111,19 @@ describe('Gluecksrad', () => {
       tick(1000);
       expect(component.startGame.emit).toHaveBeenCalled();
     }));
+
+    it('setzt blockeDrehen auf true', () => {
+      component.start();
+      expect((component as any).blockeDrehen).toBeTrue();
+    });
+
+    it('zweiter Klick während Animation wird ignoriert', fakeAsync(() => {
+      spyOn(component.startGame, 'emit');
+      component.start();
+      component.start();
+      tick(1000);
+      expect(component.startGame.emit).toHaveBeenCalledTimes(1);
+    }));
   });
 
   // ─── Drehen ────────────────────────────────────────────────────────────────
@@ -144,6 +162,48 @@ describe('Gluecksrad', () => {
       component.onDrehen();
       tick(component.drehzeitMs + 100);
       expect(component.highlightWinner()).toBeTrue();
+    }));
+
+    it('spielt Rattle-Sound beim Drehen ab', fakeAsync(() => {
+      component.onDrehen();
+      expect(soundService.playRattle).toHaveBeenCalledWith(
+        component.drehzeitMs,
+        component.anzahlSegmente(),
+        jasmine.any(Number),
+        jasmine.any(Number)
+      );
+      tick(component.drehzeitMs + 100);
+    }));
+
+    it('übergibt das tatsächliche Rotationsdelta und den Ausgangswinkel an playRattle', fakeAsync(() => {
+      const winkelVorher = component.derzeitigerRotationsWinkel();
+      component.onDrehen();
+      const delta = component.derzeitigerRotationsWinkel() - winkelVorher;
+      expect(soundService.playRattle).toHaveBeenCalledWith(
+        component.drehzeitMs,
+        component.anzahlSegmente(),
+        delta,
+        winkelVorher
+      );
+      tick(component.drehzeitMs + 100);
+    }));
+
+    it('blockeDrehen bleibt true nach dem Drehen bis neue Gruppe geladen ist', fakeAsync(() => {
+      component.onDrehen();
+      tick(component.drehzeitMs + 100);
+      expect((component as any).blockeDrehen).toBeTrue();
+    }));
+
+    it('blockeDrehen wird false wenn neue Gruppe geladen wird', fakeAsync(() => {
+      component.onDrehen();
+      tick(component.drehzeitMs + 100);
+
+      fixture.componentRef.setInput('segmentGruppe', {
+        id: 'fraktion', name: 'Fraktion', werte: ['A', 'B']
+      });
+      fixture.detectChanges();
+
+      expect((component as any).blockeDrehen).toBeFalse();
     }));
 
     it('zweites onDrehen() während Drehung wird blockiert', fakeAsync(() => {

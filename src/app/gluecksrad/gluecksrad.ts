@@ -1,6 +1,7 @@
 import {Component, computed, effect, ElementRef, input, output, signal, ViewChild} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {FarbenBerechnungService} from '../farben-berechnung-service';
+import {SoundService} from '../sound.service';
 import {SegmentGruppe} from '../daten';
 
 @Component({
@@ -30,11 +31,12 @@ export class Gluecksrad {
   startGame = output<void>();
   highlightWinner = signal(false);
 
-  constructor(private farbenBerechnungService: FarbenBerechnungService) {
+  constructor(private farbenBerechnungService: FarbenBerechnungService, private soundService: SoundService) {
     effect(() => {
       const gruppe = this.segmentGruppe();
       this.gewinnerSegment.set(null);
       this.highlightWinner.set(false);
+      this.blockeDrehen = false;
       if (gruppe?.id === 'default') {
         this.idleDrehen.set(true);
       }
@@ -44,16 +46,19 @@ export class Gluecksrad {
   onDrehen() {
     if (this.blockeDrehen) return;
     this.blockeDrehen = true;
-    this.highlightWinner.set(false)
-    this.berechneNeueRotation()
+    this.highlightWinner.set(false);
+    const currentAngle = this.derzeitigerRotationsWinkel();
+    const delta = this.berechneNeueRotation();
+    this.soundService.playRattle(this.drehzeitMs, this.anzahlSegmente(), delta, currentAngle);
     setTimeout(() => {
       this.berechneGewinnerSegment();
       this.highlightWinner.set(true);
-      this.blockeDrehen = false;
     }, this.drehzeitMs + 50);
   }
 
   start() {
+    if (this.blockeDrehen) return;
+    this.blockeDrehen = true;
     const el = this.radIdleContainer.nativeElement;
     const transformStr = window.getComputedStyle(el).transform;
     const matrix = transformStr !== 'none' ? new DOMMatrix(transformStr) : new DOMMatrix();
@@ -86,16 +91,11 @@ export class Gluecksrad {
     return `url('images/Schild.png')`;
   })
 
-  berechneNeueRotation(): void {
-    const minExtra = 0;
-    const maxExtra = 360;
-
-    const extraRandom =
-      Math.floor(Math.random() * (maxExtra - minExtra + 1)) + minExtra;
-
+  berechneNeueRotation(): number {
+    const extraRandom = Math.floor(Math.random() * 361);
     const delta = 360 * 4 + extraRandom;
-
     this.derzeitigerRotationsWinkel.update((old) => old + delta);
+    return delta;
   }
 
   labelContainerStyle(index: number) {

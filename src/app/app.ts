@@ -1,4 +1,5 @@
-import { Component, computed, signal, ViewChild } from '@angular/core';
+import { Component, computed, Inject, signal, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Gluecksrad } from './gluecksrad/gluecksrad';
 import { Auswahl } from './auswahl/auswahl';
 import { CharakterModal } from './charakter-modal/charakter-modal';
@@ -25,7 +26,12 @@ export class App {
 
   @ViewChild(Auswahl) auswahlComponent!: Auswahl;
 
-  constructor(private namensGeneratorService: NamensGeneratorService) {}
+  constructor(
+    private namensGeneratorService: NamensGeneratorService,
+    @Inject(DOCUMENT) document: Document,
+  ) {
+    document.body.style.backgroundImage = "url('images/links.png')";
+  }
 
   updateCharacterData(field: keyof CharacterData, value: string) {
     this.auswahlComponent.setField(field, value);
