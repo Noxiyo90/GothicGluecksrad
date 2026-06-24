@@ -26,6 +26,7 @@ export class Gluecksrad {
   idleDrehen = signal(true);
   @ViewChild('radIdleContainer') radIdleContainer!: ElementRef<HTMLElement>;
   blockeDrehen = false;
+  private drehenTimeoutId: ReturnType<typeof setTimeout> | null = null;
   gewinnerSegment = signal<number | null>(null);
   gewinnerSegmentOutput = output<number>();
   startGame = output<void>();
@@ -50,7 +51,8 @@ export class Gluecksrad {
     const currentAngle = this.derzeitigerRotationsWinkel();
     const delta = this.berechneNeueRotation();
     this.soundService.playRattle(this.drehzeitMs, this.anzahlSegmente(), delta, currentAngle);
-    setTimeout(() => {
+    this.drehenTimeoutId = setTimeout(() => {
+      this.drehenTimeoutId = null;
       this.berechneGewinnerSegment();
       this.highlightWinner.set(true);
     }, this.drehzeitMs + 50);
@@ -59,6 +61,7 @@ export class Gluecksrad {
   start() {
     if (this.blockeDrehen) return;
     this.blockeDrehen = true;
+    this.soundService.playStop();
     const el = this.radIdleContainer.nativeElement;
     const transformStr = window.getComputedStyle(el).transform;
     const matrix = transformStr !== 'none' ? new DOMMatrix(transformStr) : new DOMMatrix();
@@ -79,6 +82,13 @@ export class Gluecksrad {
       anim.cancel();
       this.startGame.emit();
     }, 1000);
+  }
+
+  resetAnimation(): void {
+    if (this.drehenTimeoutId !== null) {
+      clearTimeout(this.drehenTimeoutId);
+      this.drehenTimeoutId = null;
+    }
   }
 
   speichenDaten = computed<number[]>(() => {

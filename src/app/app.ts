@@ -1,14 +1,16 @@
 import { Component, computed, Inject, signal, ViewChild } from '@angular/core';
+import { SoundService } from './sound.service';
 import { DOCUMENT } from '@angular/common';
 import { Gluecksrad } from './gluecksrad/gluecksrad';
 import { Auswahl } from './auswahl/auswahl';
 import { CharakterModal } from './charakter-modal/charakter-modal';
+import { Settings } from './settings/settings';
 import { CharacterData, SEGMENT_GRUPPEN } from './daten';
 import { NamensGeneratorService } from './namens-generator-service';
 
 @Component({
   selector: 'app-root',
-  imports: [Gluecksrad, Auswahl, CharakterModal],
+  imports: [Gluecksrad, Auswahl, CharakterModal, Settings],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -25,9 +27,12 @@ export class App {
   );
 
   @ViewChild(Auswahl) auswahlComponent!: Auswahl;
+  @ViewChild(Gluecksrad) gluecksradComponent!: Gluecksrad;
+  private updateTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private namensGeneratorService: NamensGeneratorService,
+    private soundService: SoundService,
     @Inject(DOCUMENT) document: Document,
   ) {
     document.body.style.backgroundImage = "url('images/links.png')";
@@ -41,7 +46,8 @@ export class App {
       );
       this.oeffneModal.set(true);
     }
-    setTimeout(() => {
+    this.updateTimeoutId = setTimeout(() => {
+      this.updateTimeoutId = null;
       this.next();
     }, 1000);
   }
@@ -69,6 +75,12 @@ export class App {
   }
 
   neuStarten() {
+    if (this.updateTimeoutId !== null) {
+      clearTimeout(this.updateTimeoutId);
+      this.updateTimeoutId = null;
+    }
+    this.gluecksradComponent.resetAnimation();
+    this.soundService.stopAll();
     this.auswahlComponent.reset();
     this.aktuelleId.set('default');
     this.generierterName.set('');

@@ -1,8 +1,22 @@
 import { Injectable } from '@angular/core';
+import { SettingsService } from './settings.service';
 
 @Injectable({ providedIn: 'root' })
 export class SoundService {
   private audioContext: AudioContext | null = null;
+  private stopAudio: HTMLAudioElement | null = null;
+
+  constructor(private settingsService: SettingsService) {}
+
+  playStop(): void {
+    if (!this.settingsService.soundEnabled()) return;
+    if (this.stopAudio) {
+      this.stopAudio.pause();
+      this.stopAudio.currentTime = 0;
+    }
+    this.stopAudio = new Audio('sounds/StartbuttonSound.m4a');
+    this.stopAudio.play().catch(() => {});
+  }
 
   private getContext(): AudioContext {
     if (!this.audioContext) {
@@ -68,7 +82,20 @@ export class SoundService {
     return this.bezierX((lo + hi) / 2, x1, x2);
   }
 
+  stopAll(): void {
+    if (this.stopAudio) {
+      this.stopAudio.pause();
+      this.stopAudio = null;
+    }
+    if (this.audioContext) {
+      this.audioContext.close();
+      this.audioContext = null;
+      this.noiseBuffer = null;
+    }
+  }
+
   playRattle(durationMs: number, anzahlSegmente: number, totalDegrees: number, currentAngle: number): void {
+    if (!this.settingsService.soundEnabled()) return;
     if (anzahlSegmente <= 0) return;
 
     const ctx = this.getContext();

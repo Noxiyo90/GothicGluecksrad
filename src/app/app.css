@@ -3,6 +3,40 @@
   align-items: flex-start;
 }
 
+.bottom-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 100;
+}
+
+.reset-btn {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  border: 1px solid var(--gothic-border-bright);
+  background: var(--gothic-surface);
+  color: var(--gothic-gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.reset-btn:hover {
+  border-color: var(--gothic-gold);
+  color: var(--gothic-gold-bright);
+}
+
+.reset-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
 .layout__wheel {
   display: flex;
   flex-direction: column;

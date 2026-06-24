@@ -106,6 +106,30 @@ describe('App', () => {
     }));
   });
 
+  // ─── Reset-Button ─────────────────────────────────────────────────────────
+
+  describe('Reset-Button', () => {
+    it('ist vorhanden', () => {
+      expect(fixture.nativeElement.querySelector('button.reset-btn')).toBeTruthy();
+    });
+
+    it('ruft neuStarten() auf', () => {
+      spyOn(component, 'neuStarten');
+      fixture.nativeElement.querySelector('button.reset-btn').click();
+      expect(component.neuStarten).toHaveBeenCalled();
+    });
+
+    it('neuStarten() während Drehung verhindert Gruppenübergang', fakeAsync(() => {
+      component.startGame();
+      fixture.detectChanges();
+      component.auswahlComponent.setField('herkunft', 'Nordmar');
+      component.gewinnerSegmentOutput(0);
+      component.neuStarten();
+      tick(component.gluecksradComponent.drehzeitMs + 100);
+      expect(component.aktuelleId()).toBe('default');
+    }));
+  });
+
   // ─── Modal ────────────────────────────────────────────────────────────────
 
   describe('Modal', () => {

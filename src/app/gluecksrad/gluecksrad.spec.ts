@@ -19,7 +19,7 @@ describe('Gluecksrad', () => {
   let soundService: jasmine.SpyObj<SoundService>;
 
   beforeEach(async () => {
-    soundService = jasmine.createSpyObj('SoundService', ['playRattle']);
+    soundService = jasmine.createSpyObj('SoundService', ['playRattle', 'playStop']);
 
     await TestBed.configureTestingModule({
       imports: [Gluecksrad],
@@ -117,6 +117,11 @@ describe('Gluecksrad', () => {
       expect((component as any).blockeDrehen).toBeTrue();
     });
 
+    it('ruft soundService.playStop() auf', () => {
+      component.start();
+      expect(soundService.playStop).toHaveBeenCalled();
+    });
+
     it('zweiter Klick während Animation wird ignoriert', fakeAsync(() => {
       spyOn(component.startGame, 'emit');
       component.start();
@@ -204,6 +209,22 @@ describe('Gluecksrad', () => {
       fixture.detectChanges();
 
       expect((component as any).blockeDrehen).toBeFalse();
+    }));
+
+    it('resetAnimation() behält den aktuellen Rotationswinkel', fakeAsync(() => {
+      component.onDrehen();
+      const winkel = component.derzeitigerRotationsWinkel();
+      component.resetAnimation();
+      expect(component.derzeitigerRotationsWinkel()).toBe(winkel);
+      tick(component.drehzeitMs + 100);
+    }));
+
+    it('resetAnimation() verhindert dass gewinnerSegmentOutput nach der Drehzeit emittiert', fakeAsync(() => {
+      spyOn(component.gewinnerSegmentOutput, 'emit');
+      component.onDrehen();
+      component.resetAnimation();
+      tick(component.drehzeitMs + 100);
+      expect(component.gewinnerSegmentOutput.emit).not.toHaveBeenCalled();
     }));
 
     it('zweites onDrehen() während Drehung wird blockiert', fakeAsync(() => {
