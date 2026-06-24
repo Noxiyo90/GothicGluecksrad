@@ -14,7 +14,7 @@
 
       <svg class="rad-ornament" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         @for (winkel of speichenDaten(); track $index) {
-          <image href="/images/Zeiger.png"
+          <image href="images/Zeiger.png"
                  x="47" y="3" width="6" height="35"
                  [attr.transform]="'rotate(' + winkel + ', 50, 50)'"/>
         }
@@ -41,8 +41,8 @@
   </div>
   <button class="starter starter--maske" type="button"
           (click)="segmentGruppe()!.id === 'default' ? start() : onDrehen()">
-    <img src="/images/schlaefer.png" alt="Start" class="starter-maske">
+    <img src="images/schlaefer.png" alt="Start" class="starter-maske">
     <span class="starter-text">{{ segmentGruppe()!.id === 'default' ? 'Starten' : 'Drehen' }}</span>
   </button>
-  <img src="/images/ZeigerAuswahl.png" alt="" class="zeiger" aria-hidden="true">
+  <img src="images/ZeigerAuswahl.png" alt="" class="zeiger" aria-hidden="true">
 </div>

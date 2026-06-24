@@ -83,7 +83,7 @@ export class Gluecksrad {
   });
 
   gradient = computed(() => {
-    return `url('/images/Schild.png')`;
+    return `url('images/Schild.png')`;
   })
 
   berechneNeueRotation(): void {
