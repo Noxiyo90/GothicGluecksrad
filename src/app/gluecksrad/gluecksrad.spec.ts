@@ -40,11 +40,11 @@ describe('Gluecksrad', () => {
       expect(btn.textContent?.trim()).toBe('Starten');
     });
 
-    it('zeigt Drehen-Button für andere Gruppen', () => {
+    it('zeigt keinen Text im Button für andere Gruppen', () => {
       fixture.componentRef.setInput('segmentGruppe', HERKUNFT_GRUPPE);
       fixture.detectChanges();
       const btn = fixture.nativeElement.querySelector('button.starter') as HTMLButtonElement;
-      expect(btn.textContent?.trim()).toBe('Drehen');
+      expect(btn.textContent?.trim()).toBe('');
     });
 
     it('zeigt den Gruppen-Namen als Überschrift', () => {

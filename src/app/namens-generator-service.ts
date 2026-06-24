@@ -4,6 +4,7 @@ import {
   BEINAMEN_GESCHICK,
   BEINAMEN_KOMBINATION,
   BEINAMEN_STAERKE,
+  ORK_VORNAMEN,
   VORNAMEN,
 } from './namen-daten';
 
@@ -13,7 +14,10 @@ import {
 export class NamensGeneratorService {
 
   generiereNamen(data: CharacterData): string {
-    const vorname = this.waehleZufaellig(VORNAMEN[data.herkunft!]);
+    const vornamenPool = data.fraktion === 'Ork'
+      ? ORK_VORNAMEN
+      : VORNAMEN[data.herkunft ?? 'Nordmar'] ?? VORNAMEN['Nordmar'];
+    const vorname = this.waehleZufaellig(vornamenPool);
     const beiname = this.berechneBeiname(data);
     return beiname ? `${vorname} ${beiname}` : vorname;
   }

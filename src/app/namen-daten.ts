@@ -75,3 +75,10 @@ export const BEINAMEN_GESCHICK: string[] = [
 export const BEINAMEN_KOMBINATION: string[] = [
   'der Göttliche', 'der Alleskönner', 'der Held mit Namen', 'der Unbesiegliche', 'der Allmächtige',
 ];
+
+export const ORK_VORNAMEN: string[] = [
+  'Gromak', 'Kruzgar', 'Targuk', 'Brashnak', 'Morgar', 'Drukash', 'Zargok', 'Kharzug', 'Grutak', 'Morkash',
+  'Tragor', 'Burmak', 'Droguk', 'Kratash', 'Zurgar', 'Gornak', 'Trukgor', 'Marduk', 'Krogash', 'Braguk',
+  'Khar\'Torak', 'Grum\'Zash', 'Mok\'Targ', 'Dur\'Gorak', 'Zar\'Makor', 'Bruk\'Thar', 'Kor\'Zugash',
+  'Trag\'Mor', 'Gur\'Tarak', 'Drog\'Khaz'
+];

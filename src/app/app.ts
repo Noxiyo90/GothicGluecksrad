@@ -39,7 +39,7 @@ export class App {
   }
 
   updateCharacterData(field: keyof CharacterData, value: string) {
-    this.auswahlComponent.setField(field, value);
+this.auswahlComponent.setField(field, value);
     if (field === 'mission') {
       this.generierterName.set(
         this.namensGeneratorService.generiereNamen(this.auswahlComponent.characterData())

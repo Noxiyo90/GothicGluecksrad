@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NamensGeneratorService } from './namens-generator-service';
-import { BEINAMEN_GESCHICK, BEINAMEN_KOMBINATION, BEINAMEN_STAERKE, VORNAMEN } from './namen-daten';
+import { BEINAMEN_GESCHICK, BEINAMEN_KOMBINATION, BEINAMEN_STAERKE, ORK_VORNAMEN, VORNAMEN } from './namen-daten';
 
 import { CharacterData } from './daten';
 
@@ -143,6 +143,36 @@ describe('NamensGeneratorService', () => {
       expect(BEINAMEN_KOMBINATION).toContain(beiname);
       expect(BEINAMEN_STAERKE).not.toContain(beiname);
       expect(BEINAMEN_GESCHICK).not.toContain(beiname);
+    });
+  });
+
+  // ─── Ork-Namen ────────────────────────────────────────────────────────────
+
+  describe('Ork-Namen', () => {
+    it('Vorname kommt aus ORK_VORNAMEN wenn fraktion === Ork', () => {
+      spyOn(Math, 'random').and.returnValue(0);
+      const result = service.generiereNamen({ fraktion: 'Ork', herkunft: 'Myrtana' });
+      expect(ORK_VORNAMEN).toContain(result.split(' ')[0]);
+    });
+
+    it('Vorname kommt nicht aus Herkunfts-Pool wenn fraktion === Ork', () => {
+      for (let i = 0; i < 20; i++) {
+        const result = service.generiereNamen({ fraktion: 'Ork', herkunft: 'Myrtana' });
+        const vorname = result.split(' ')[0];
+        expect(VORNAMEN['Myrtana']).not.toContain(vorname);
+      }
+    });
+
+    it('normaler Herkunftsname wenn fraktion === Orksöldner', () => {
+      for (let i = 0; i < 20; i++) {
+        const result = service.generiereNamen({ fraktion: 'Orksöldner', herkunft: 'Nordmar' });
+        const vorname = result.split(' ')[0];
+        expect(VORNAMEN['Nordmar']).toContain(vorname);
+      }
+    });
+
+    it('ORK_VORNAMEN hat mindestens 1 Eintrag', () => {
+      expect(ORK_VORNAMEN.length).toBeGreaterThanOrEqual(1);
     });
   });
 

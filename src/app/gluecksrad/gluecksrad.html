@@ -42,7 +42,9 @@
   <button class="starter starter--maske" type="button"
           (click)="segmentGruppe()!.id === 'default' ? start() : onDrehen()">
     <img src="images/schlaefer.png" alt="Start" class="starter-maske">
-    <span class="starter-text">{{ segmentGruppe()!.id === 'default' ? 'Starten' : 'Drehen' }}</span>
+    @if (segmentGruppe()!.id === 'default') {
+      <span class="starter-text">Starten</span>
+    }
   </button>
   <img src="images/ZeigerAuswahl.png" alt="" class="zeiger" aria-hidden="true">
 </div>
