@@ -35,7 +35,7 @@ export class App {
     private soundService: SoundService,
     @Inject(DOCUMENT) document: Document,
   ) {
-    document.body.style.backgroundImage = "url('images/links.png')";
+    document.body.style.backgroundImage = "url('images/backgrounds/standardWallpaper.png')";
   }
 
   updateCharacterData(field: keyof CharacterData, value: string) {
