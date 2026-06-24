@@ -3,7 +3,7 @@
 </div>
 
 <div class="rad-wrapper">
-  <div class="rad-idle-container" [class.idle]="idleDrehen()">
+  <div class="rad-idle-container" #radIdleContainer [class.idle]="idleDrehen()">
 
     <div class="rad-scheibe"
          [class.winner-flash]="highlightWinner()"
@@ -12,7 +12,17 @@
            'transform': 'rotate(' + derzeitigerRotationsWinkel() + 'deg)'
          }">
 
+      <svg class="rad-ornament" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        @for (winkel of speichenDaten(); track $index) {
+          <image href="/images/Zeiger.png"
+                 x="47" y="3" width="6" height="35"
+                 [attr.transform]="'rotate(' + winkel + ', 50, 50)'"/>
+        }
+        <circle cx="50" cy="50" r="46.5" class="rand-ring"/>
+      </svg>
+
       <div class="rad-labels">
+        @if (segmentGruppe()!.id !== 'default') {
         @for (wert of segmentGruppe()!.werte; track $index) {
           <div
             class="rad-label"
@@ -24,19 +34,15 @@
             </div>
           </div>
         }
+        }
       </div>
-    </div>
 
+    </div>
   </div>
-  @if (segmentGruppe()!.id === 'default') {
-    <button class="starter starter--maske" type="button" (click)="start()">
-      <img src="/images/schlaefer.png" alt="Start" class="starter-maske">
-      <span class="starter-text">Starten</span>
-    </button>
-  } @else {
-    <button class="starter" type="button" (click)="onDrehen()">
-      Drehen
-    </button>
-  }
-  <div class="zeiger"></div>
+  <button class="starter starter--maske" type="button"
+          (click)="segmentGruppe()!.id === 'default' ? start() : onDrehen()">
+    <img src="/images/schlaefer.png" alt="Start" class="starter-maske">
+    <span class="starter-text">{{ segmentGruppe()!.id === 'default' ? 'Starten' : 'Drehen' }}</span>
+  </button>
+  <img src="/images/ZeigerAuswahl.png" alt="" class="zeiger" aria-hidden="true">
 </div>

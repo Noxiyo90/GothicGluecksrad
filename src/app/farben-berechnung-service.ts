@@ -6,13 +6,13 @@ import { Injectable } from '@angular/core';
 export class FarbenBerechnungService {
 
   readonly BASEFARBEN: string[] = [
-    'hsl(20 40% 18%)',
-    'hsl(20 40% 26%)',
-    'hsl(20 40% 34%)',
-    'hsl(10 45% 22%)',
-    'hsl(10 45% 30%)',
-    'hsl(35 50% 24%)',
-    'hsl(35 50% 32%)',
+    'hsl(20 40% 18% / 0.55)',
+    'hsl(20 40% 26% / 0.55)',
+    'hsl(20 40% 34% / 0.55)',
+    'hsl(10 45% 22% / 0.55)',
+    'hsl(10 45% 30% / 0.55)',
+    'hsl(35 50% 24% / 0.55)',
+    'hsl(35 50% 32% / 0.55)',
   ];
 
   private readonly farbPalette: string[] = this.createFarbPalette(this.BASEFARBEN);
@@ -31,7 +31,7 @@ export class FarbenBerechnungService {
         i === gewinnerSegment;
 
       const farbe = istGewinner
-        ? 'hsl(var(--winner-h) var(--winner-s) var(--winner-l))'
+        ? 'hsl(var(--winner-h) var(--winner-s) var(--winner-l) / 0.75)'
         : farben[i % farben.length];
 
       const start = currentWinkel;

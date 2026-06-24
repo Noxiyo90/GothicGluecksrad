@@ -30,9 +30,9 @@ describe('Gluecksrad', () => {
   // ─── Template ──────────────────────────────────────────────────────────────
 
   describe('Template', () => {
-    it('zeigt Start!-Button für die Default-Gruppe', () => {
+    it('zeigt Starten-Button für die Default-Gruppe', () => {
       const btn = fixture.nativeElement.querySelector('button.starter') as HTMLButtonElement;
-      expect(btn.textContent?.trim()).toBe('Start!');
+      expect(btn.textContent?.trim()).toBe('Starten');
     });
 
     it('zeigt Drehen-Button für andere Gruppen', () => {
@@ -85,16 +85,27 @@ describe('Gluecksrad', () => {
   // ─── start() ───────────────────────────────────────────────────────────────
 
   describe('start()', () => {
+    beforeEach(() => {
+      const mockEl = {
+        animate: jasmine.createSpy('animate').and.returnValue({ cancel: jasmine.createSpy('cancel') }),
+        classList: { remove: jasmine.createSpy('remove') },
+      };
+      (component as any).radIdleContainer = { nativeElement: mockEl };
+      spyOn(window, 'getComputedStyle').and.returnValue({ transform: 'none' } as any);
+    });
+
     it('setzt idleDrehen auf false', () => {
       component.start();
       expect(component.idleDrehen()).toBeFalse();
     });
 
-    it('emittiert das startGame-Event', () => {
+    it('emittiert das startGame-Event nach 1 Sekunde', fakeAsync(() => {
       spyOn(component.startGame, 'emit');
       component.start();
+      expect(component.startGame.emit).not.toHaveBeenCalled();
+      tick(1000);
       expect(component.startGame.emit).toHaveBeenCalled();
-    });
+    }));
   });
 
   // ─── Drehen ────────────────────────────────────────────────────────────────
@@ -143,6 +154,33 @@ describe('Gluecksrad', () => {
       expect(component.derzeitigerRotationsWinkel()).toBe(winkelNachDrehen);
       tick(component.drehzeitMs + 100);
     }));
+  });
+
+  // ─── speichenDaten ─────────────────────────────────────────────────────────
+
+  describe('speichenDaten()', () => {
+    it('gibt n Winkel für n Segmente zurück', () => {
+      fixture.componentRef.setInput('segmentGruppe', ZEHN_SEGMENTE);
+      fixture.detectChanges();
+      expect(component.speichenDaten().length).toBe(10);
+    });
+
+    it('Winkel sind gleichmäßig verteilt (360/n Grad Abstand)', () => {
+      fixture.componentRef.setInput('segmentGruppe', ZEHN_SEGMENTE);
+      fixture.detectChanges();
+      const daten = component.speichenDaten();
+      expect(daten[0]).toBe(0);
+      expect(daten[1]).toBeCloseTo(36);
+      expect(daten[9]).toBeCloseTo(324);
+    });
+
+    it('gibt bei 4 Segmenten die Winkel 0, 90, 180, 270 zurück', () => {
+      fixture.componentRef.setInput('segmentGruppe', {
+        id: 'herkunft', name: 'Test', werte: ['A', 'B', 'C', 'D']
+      });
+      fixture.detectChanges();
+      expect(component.speichenDaten()).toEqual([0, 90, 180, 270]);
+    });
   });
 
   // ─── Gewinner-Berechnung ───────────────────────────────────────────────────
