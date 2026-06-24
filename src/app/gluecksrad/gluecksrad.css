@@ -14,12 +14,10 @@
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  border: 5px solid var(--gothic-border-bright);
-  box-shadow:
-    0 0 20px rgba(200, 144, 42, 0.25),
-    0 8px 32px rgba(0, 0, 0, 0.6),
-    inset 0 0 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 
+  background-size: 108%;
+  background-position: 49% 46%;
   transition: transform 4s cubic-bezier(0.25, 0.1, 0.1, 1);
   transform-origin: center center;
 }
@@ -27,14 +25,10 @@
 .zeiger {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: -0.7vw;
   transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 0.6rem solid transparent;
-  border-bottom: 0.6rem solid transparent;
-  border-right: 1.1rem solid;
-  color: var(--gothic-gold);
+  width: 3vw;
+  height: auto;
   filter: drop-shadow(0 0 4px rgba(200, 144, 42, 0.6));
 }
 
@@ -168,6 +162,89 @@
   text-shadow:
     0 0 20px rgba(200, 144, 42, 0.4),
     0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.rad-ornament {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.speiche-linie {
+  stroke: var(--gothic-gold);
+  stroke-width: 0.4;
+  opacity: 0.7;
+}
+
+.speiche-ornament {
+  fill: var(--gothic-gold);
+  opacity: 0.9;
+}
+
+.speiche-ornament-linie {
+  stroke: var(--gothic-gold);
+  stroke-width: 0.5;
+  opacity: 0.9;
+}
+
+.speiche-bogen {
+  fill: none;
+  stroke: var(--gothic-gold);
+  stroke-width: 0.4;
+  opacity: 0.8;
+}
+
+.speiche-pfeil {
+  fill: none;
+  stroke: var(--gothic-gold);
+  stroke-width: 0.8;
+  stroke-linejoin: miter;
+  opacity: 0.95;
+}
+
+.speiche-punkt {
+  fill: var(--gothic-gold);
+  opacity: 0.7;
+}
+
+.rand-ring {
+  fill: none;
+  stroke: var(--gothic-gold);
+  stroke-width: 0.6;
+  opacity: 0.85;
+}
+
+.zier-ring {
+  fill: none;
+  stroke: var(--gothic-gold);
+  stroke-width: 0.4;
+  stroke-dasharray: 2 2;
+  opacity: 0.7;
+}
+
+.nabe-ring-aussen {
+  fill: #1a1008;
+  stroke: var(--gothic-gold);
+  stroke-width: 0.6;
+}
+
+.nabe-ring-innen {
+  fill: none;
+  stroke: var(--gothic-gold);
+  stroke-width: 0.4;
+  opacity: 0.6;
+}
+
+.nabe-kreuz {
+  stroke: var(--gothic-gold);
+  stroke-width: 0.5;
+}
+
+.nabe-kern {
+  fill: var(--gothic-gold);
 }
 
 .rad-label__inner {

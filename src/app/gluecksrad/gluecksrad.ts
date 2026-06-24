@@ -1,4 +1,4 @@
-import {Component, computed, effect, input, output, signal} from '@angular/core';
+import {Component, computed, effect, ElementRef, input, output, signal, ViewChild} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {FarbenBerechnungService} from '../farben-berechnung-service';
 import {SegmentGruppe} from '../daten';
@@ -23,6 +23,7 @@ export class Gluecksrad {
 
   derzeitigerRotationsWinkel = signal(0);
   idleDrehen = signal(true);
+  @ViewChild('radIdleContainer') radIdleContainer!: ElementRef<HTMLElement>;
   blockeDrehen = false;
   gewinnerSegment = signal<number | null>(null);
   gewinnerSegmentOutput = output<number>();
@@ -31,9 +32,12 @@ export class Gluecksrad {
 
   constructor(private farbenBerechnungService: FarbenBerechnungService) {
     effect(() => {
-      this.segmentGruppe();
+      const gruppe = this.segmentGruppe();
       this.gewinnerSegment.set(null);
       this.highlightWinner.set(false);
+      if (gruppe?.id === 'default') {
+        this.idleDrehen.set(true);
+      }
     });
   }
 
@@ -50,15 +54,36 @@ export class Gluecksrad {
   }
 
   start() {
+    const el = this.radIdleContainer.nativeElement;
+    const transformStr = window.getComputedStyle(el).transform;
+    const matrix = transformStr !== 'none' ? new DOMMatrix(transformStr) : new DOMMatrix();
+    const currentAngle = Math.atan2(matrix.b, matrix.a) * (180 / Math.PI);
+
+    el.classList.remove('idle');
     this.idleDrehen.set(false);
-    this.startGame.emit();
+
+    const anim = el.animate(
+      [
+        { transform: `rotate(${currentAngle}deg)` },
+        { transform: `rotate(${currentAngle + 3}deg)` }
+      ],
+      { duration: 1000, easing: 'cubic-bezier(0.5, 1.0, 0.5, 1.0)', fill: 'forwards' }
+    );
+
+    setTimeout(() => {
+      anim.cancel();
+      this.startGame.emit();
+    }, 1000);
   }
 
+  speichenDaten = computed<number[]>(() => {
+    const n = this.anzahlSegmente();
+    const winkel = 360 / n;
+    return Array.from({length: n}, (_, i) => i * winkel);
+  });
+
   gradient = computed(() => {
-    return this.farbenBerechnungService.buildSegmenteCssString(
-      this.anzahlSegmente(),
-      this.gewinnerSegment(),
-      this.highlightWinner());
+    return `url('/images/Schild.png')`;
   })
 
   berechneNeueRotation(): void {
